@@ -1,461 +1,727 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ISW-131 · Examen 2 — Guía de estudio · EDUCATE_RD</title>
+<title>ISW-131 · Examen 2 — Guía interactiva · EDUCATE_RD</title>
 <link rel="stylesheet" href="../../../assets/css/educate.css">
 </head>
 <body>
 
 <header class="topbar">
-  <div class="wrap">
-    <a class="logo" href="../../../index.html">EDUCATE_RD</a>
-    <span class="crumb">/ ISW-131 Algoritmos y Estructuras de Datos / Examen 2</span>
-    <nav>
-      <a href="#plan">Plan</a>
-      <a href="#cadenas">Cadenas</a>
-      <a href="#vectores">Vectores</a>
-      <a href="#matrices">Matrices</a>
-      <a href="#ordenamiento">Ordenamiento</a>
-      <a href="#casos">Casos del profe</a>
-      <a href="#tarjetas">Tarjetas</a>
-    </nav>
+  <div class="topbar-in">
+    <a class="brand" href="../../../index.html">
+      <span class="brand-mark">E</span>
+      <span>EDUCATE_RD</span>
+    </a>
+    <span class="crumb">/ ISW-131 · Segundo Parcial</span>
+    <div class="top-right">
+      <span class="prog-pill" id="prog-text"><b>0/10</b> casos · <b>0/15</b> tarjetas</span>
+      <button class="icon-btn" id="theme-toggle" type="button" aria-label="Cambiar tema">☾</button>
+    </div>
   </div>
+  <nav class="subnav" aria-label="Secciones de la guía">
+    <a class="on" href="#cadenas">1. Cadenas</a>
+    <a href="#vectores">2. Vectores</a>
+    <a href="#matrices">3. Matrices</a>
+    <a href="#ordenamiento">4. Ordenamiento</a>
+    <a href="#playbook">5. Casos complejos</a>
+    <a href="#casos">6. Quiz del profe (10)</a>
+    <a href="#tarjetas">7. Tarjetas (15)</a>
+  </nav>
 </header>
 
 <div class="wrap">
 
+  <!-- ============ HERO ============ -->
   <div class="hero">
-    <span class="tag">Guía de estudio · Segundo parcial</span>
-    <h1>Cadenas, vectores, matrices y ordenamiento en C</h1>
-    <p class="sub">Lo que el profesor pone en el examen, destilado de sus propios
-    casos prácticos y del juego de tarjetas. Sin relleno: cada bloque trae lo
-    que hay que saber escribir de memoria, las trampas típicas y los casos
-    reales que usa para evaluar.</p>
-    <div class="meta">
-      <span><b>Temas:</b> 4 bloques</span>
-      <span><b>Casos del profe:</b> 10 resueltos abajo</span>
-      <span><b>Tarjetas:</b> 15 esenciales</span>
-      <span><b>PDF de refuerzo:</b> <a href="guia-isw131-examen2.pdf">guia-isw131-examen2.pdf</a> (5 págs.)</span>
+    <span class="eyebrow"><span class="dot"></span> ISW-131 · Modo Para Dummys · Segundo Parcial</span>
+    <h1>Cadenas, vectores, matrices y ordenamiento — sin enredos</h1>
+    <p class="sub">Explicado como si se lo contaras a un pana antes de entrar al aula:
+    analogías visuales, laboratorios interactivos para tocar cómo funciona la
+    memoria, receta para los casos largos del profesor y sus 10 casos reales.</p>
+    <div class="hero-actions">
+      <a class="btn" href="#casos">Ir directo a los 10 casos del profe</a>
+      <a class="btn ghost" href="guia-isw131-examen2.pdf" target="_blank">Abrir PDF de 5 págs.</a>
+    </div>
+
+    <div class="modebar" role="group" aria-label="Modo de estudio">
+      <button class="modebtn on" data-mode="full" type="button">Modo Para Dummys (Completo + Labs)</button>
+      <button class="modebtn" data-mode="panic" type="button">Modo Pánico (Solo 5 min)</button>
+      <button class="modebtn" data-mode="sim" type="button">Simulador Examen (10 casos)</button>
+    </div>
+
+    <div class="panic-banner">
+      <span><b>Modo Pánico activo:</b> código largo oculto. Solo ves las analogías,
+      reglas de oro, trampas mortales, receta de casos y preguntas.</span>
+      <button class="btn sm ghost" id="exit-panic" type="button">Ver guía completa</button>
     </div>
   </div>
 
-  <!-- ============ PLAN ============ -->
-  <section class="blk" id="plan">
-    <h2><span class="num">0</span> Plan de ataque</h2>
-    <p class="lede">El profesor evalúa con 2–4 casos complejos más preguntas de
-    análisis. No hay que aprenderlo todo: hay que dominar los patrones que se
-    repiten en todos sus ejercicios.</p>
-    <div class="grid g3">
-      <div class="card"><h3>1. Memoriza los patrones</h3>
-      <p>Las plantillas de código de cada bloque (recorrer cadena, búsqueda,
-      columna de matriz, los 3 ordenamientos). Salen en casi todos los casos.</p></div>
-      <div class="card"><h3>2. Domina las trampas</h3>
-      <p>Cada trampa marcada abajo es una pregunta potencial: <code class="inl">fgets</code> +
-      <code class="inl">'\n'</code>, <code class="inl">==</code> en cadenas, <code class="inl">i &lt;= n</code>,
-      división entera, transpuesta con <code class="inl">j=0</code>.</p></div>
-      <div class="card"><h3>3. Practica los casos</h3>
-      <p>Los 10 casos del profesor están abajo como quiz interactivo. Hazlos sin
-      mirar la respuesta — ese es el formato real del examen.</p></div>
-    </div>
-  </section>
-
-  <!-- ============ CADENAS ============ -->
+  <!-- ============ 1. CADENAS ============ -->
   <section class="blk" id="cadenas">
-    <h2><span class="num">1</span> Cadenas <span class="chip cad">string.h + ctype.h</span></h2>
-    <p class="lede">Una cadena en C es un arreglo de <code class="inl">char</code> que termina en
-    <code class="inl">'\0'</code>. Todas las funciones de <code class="inl">string.h</code> dependen
-    de ese terminador — si falta, leen memoria ajena.</p>
+    <div class="blk-head">
+      <span class="blk-num">1</span>
+      <h2>Cadenas de caracteres</h2>
+      <span class="chip cad">string.h + ctype.h</span>
+    </div>
+    <p class="lede">En C no existe el tipo <code class="inl">string</code>. Una cadena
+    es simplemente un arreglo de letras que termina con una bandera invisible
+    llamada <code class="inl">'\0'</code>.</p>
 
-    <div class="key"><b>Regla del +1.</b> Una cadena de N caracteres necesita
-    un arreglo de <b>N+1</b> posiciones. Si lees con <code class="inl">fgets</code>,
-    una más para que quepa el <code class="inl">'\n'</code>: nombre de 50 →
-    <code class="inl">char nombre[52]</code>.</div>
+    <div class="dummy-box">
+      <span class="dummy-tag">Explicado para dummys · El tren con bandera roja</span>
+      <h3>¿Por qué 5 letras necesitan 6 espacios?</h3>
+      <p>Imagina un tren donde cada letra va en un vagón. Al final SIEMPRE debe ir
+      un vagón extra con la bandera roja <code class="inl">'\0'</code> que significa
+      <b>"hasta aquí llegó la palabra"</b>. Si no dejas sitio para ese vagón extra,
+      <code class="inl">printf</code> no sabe dónde parar y sigue leyendo basura de la memoria.</p>
 
-    <pre class="code"><span class="cmt">/* Leer cadenas BIEN — el patrón de siempre */</span>
+      <div style="margin-top:12px">
+        <div class="mat-controls">
+          <button class="mat-btn on" data-str="ok" type="button">"PUNTA" en char[6] (Bien)</button>
+          <button class="mat-btn" data-str="fgets" type="button">"Maria" leída con fgets (El '\n'!)</button>
+          <button class="mat-btn" data-str="bad" type="button">"Pedro" en char[5] (Error!)</button>
+        </div>
+        <div class="mem-row" id="str-mem"></div>
+        <p id="str-explain" style="font-size:13.5px;margin-top:6px"></p>
+      </div>
+    </div>
+
+    <div class="dummy-box">
+      <span class="dummy-tag">Explicado para dummys · El truco de las dos casas</span>
+      <h3>¿Por qué <code class="inl">nombre == "Maria"</code> SIEMPRE falla?</h3>
+      <p>En C, una cadena es la <b>dirección de su casa</b> en memoria (ejemplo: Casa #104 vs Casa #820).
+      Aunque adentro de las dos casas viva la misma palabra <code class="inl">"Maria"</code>:</p>
+      <div class="grid g2" style="margin-top:10px">
+        <div class="callout trap" style="margin:0">
+          <span class="ct">Lo que hace ==</span>
+          Compara los números de casa (<b>#104 == #820</b>). Como son casas distintas, dice FALSO aunque el texto sea igual.
+        </div>
+        <div class="callout tip" style="margin:0">
+          <span class="ct">Lo que hace strcmp(a, b)</span>
+          Entra a ambas casas y compara letra por letra. Si son iguales devuelve <b>0</b> ("cero diferencias").
+        </div>
+      </div>
+    </div>
+
+    <div class="callout key">
+      <span class="ct">Regla del +1 (de memoria)</span>
+      Para guardar máximo N letras necesitas <code class="inl">char s[N+1]</code>.
+      Si lees con <code class="inl">fgets</code>, suma otra más para que quepa el Enter antes de borrarlo:
+      nombre de 50 → <code class="inl">char nombre[52];</code>
+    </div>
+
+    <div class="callout trap">
+      <span class="ct">Dos trampas clásicas de fgets y scanf</span>
+      <b>1)</b> <code class="inl">fgets</code> guarda tu tecla Enter como <code class="inl">'\n'</code> dentro de la palabra, por eso <code class="inl">"Maria\n"</code> no es igual a <code class="inl">"Maria"</code>. Se borra así: <code class="inl">s[strcspn(s, "\n")] = '\0';</code><br>
+      <b>2)</b> Si usas <code class="inl">scanf("%d", &op)</code> antes de un <code class="inl">fgets</code>, scanf deja el Enter botado en el teclado y <code class="inl">fgets</code> se lo traga y "se salta solo". Fix: llamar <code class="inl">limpiarBuffer()</code> después de cada scanf.
+    </div>
+
+    <div class="deep">
+      <div class="codebox">
+        <div class="codebar"><span class="dots"><i></i><i></i><i></i></span><span>Lectura limpia + limpiarBuffer()</span><button class="copy" type="button">Copiar</button></div>
+<pre class="code"><span class="cmt">/* Leer una frase o nombre completo sin que quede el '\n' */</span>
 char nombre[52];
-fgets(nombre, sizeof(nombre), stdin);        <span class="cmt">// lee línea completa + '\n'</span>
-nombre[strcspn(nombre, <span class="str">"\n"</span>)] = <span class="str">'\0'</span>;   <span class="cmt">// quita el Enter</span>
+fgets(nombre, sizeof(nombre), stdin);
+nombre[strcspn(nombre, <span class="str">"\n"</span>)] = <span class="str">'\0'</span>;
 
-<span class="cmt">/* Después de scanf, limpiar el buffer o fgets se "salta" */</span>
+<span class="cmt">/* Vaciar la basura que deja scanf antes de leer texto */</span>
 void limpiarBuffer(void) {
     int c;
     while ((c = getchar()) != <span class="str">'\n'</span> &amp;&amp; c != EOF) { }
 }</pre>
+      </div>
 
-    <div class="trap">Un <code class="inl">fgets</code> que "se salta solo" = un
-    <code class="inl">scanf</code> anterior dejó el <code class="inl">'\n'</code> en el
-    buffer. Solución: <code class="inl">limpiarBuffer()</code> tras cada scanf.</div>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <tr><th>Función</th><th>Traducción simple</th><th>Lo que preguntan en el examen</th></tr>
+          <tr><td><code>strlen(s)</code></td><td>Cuenta cuántas letras hay</td><td>NO cuenta el <code>'\0'</code>. <code>strlen("Hola")</code> = 4</td></tr>
+          <tr><td><code>strcpy(dest, src)</code></td><td>Copia una cadena en otra</td><td>Existe porque en C NO puedes hacer <code>dest = src</code></td></tr>
+          <tr><td><code>strncpy(d, s, n)</code></td><td>Copia máximo n letras</td><td>OJO: no pone el <code>'\0'</code> automático si se llena</td></tr>
+          <tr><td><code>strcmp(a, b)</code></td><td>¿Cuál va primero en el diccionario?</td><td><b>0</b> si son iguales; &lt;0 si a va antes; &gt;0 después. <code>"ana" &gt; "Ana"</code> ('a'=97 &gt; 'A'=65)</td></tr>
+          <tr><td><code>strstr(txt, sub)</code></td><td>¿Está esa palabra dentro del texto?</td><td>Devuelve dirección si está, o <b>NULL</b> si NO está</td></tr>
+          <tr><td><code>strcspn(s, "\n")</code></td><td>¿En qué índice cayó el Enter?</td><td>Sirve para pisar el <code>'\n'</code> con <code>'\0'</code></td></tr>
+        </table>
+      </div>
 
-    <table class="tbl">
-      <tr><th>Función</th><th>Qué hace</th><th>Retorna / detalle</th></tr>
-      <tr><td><code>strlen(s)</code></td><td>Longitud de la cadena</td><td>Cuenta SIN el <code>'\0'</code>. <code>strlen("Hola")</code> → 4</td></tr>
-      <tr><td><code>strcpy(dest,src)</code></td><td>Copia src en dest</td><td>Los arreglos no se asignan con <code>=</code></td></tr>
-      <tr><td><code>strncpy(d,s,n)</code></td><td>Copia máx. n caracteres</td><td><b>No garantiza</b> el <code>'\0'</code> si src es más larga</td></tr>
-      <tr><td><code>strcat(dest,src)</code></td><td>Pega src al final de dest</td><td>dest debe tener espacio libre</td></tr>
-      <tr><td><code>strcmp(a,b)</code></td><td>Compara por código ASCII</td><td><b>0 = iguales</b>, &lt;0 a va antes, &gt;0 después. <code>strcmp("ana","Ana")&gt;0</code> porque 'a'=97 &gt; 'A'=65</td></tr>
-      <tr><td><code>strstr(t,b)</code></td><td>Busca b dentro de t</td><td>Puntero a la 1.ª coincidencia o <code>NULL</code></td></tr>
-      <tr><td><code>strchr(s,c)</code></td><td>Busca un carácter</td><td>Puntero o <code>NULL</code></td></tr>
-      <tr><td><code>strcspn(s,"\n")</code></td><td>Posición del primer '\n'</td><td>Índice donde poner el <code>'\0'</code></td></tr>
-    </table>
-
-    <div class="trap"><code class="inl">nombre == "Maria"</code> compara
-    <b>direcciones</b>, no contenido. Siempre
-    <code class="inl">strcmp(nombre, "Maria") == 0</code>.</div>
-
-    <pre class="code"><span class="cmt">/* ctype.h: un carácter a la vez → recorrer para la cadena completa */</span>
-void aMinusculas(char s[]) {
+      <div class="codebox">
+        <div class="codebar"><span class="dots"><i></i><i></i><i></i></span><span>ctype.h: trabaja 1 letra a la vez (por eso usa un for)</span><button class="copy" type="button">Copiar</button></div>
+<pre class="code"><span class="cmt">/* isalpha(c) letra | isdigit(c) 0-9 | isspace(c) espacio | toupper/tolower */</span>
+void aMayusculas(char s[]) {
     for (int i = 0; s[i] != <span class="str">'\0'</span>; i++)
-        s[i] = (char)tolower((unsigned char)s[i]);
+        s[i] = (char)toupper((unsigned char)s[i]); <span class="cmt">// cast evita warnings</span>
 }
-<span class="cmt">/* isalpha, isdigit, isalnum, isspace, isupper, islower, toupper, tolower
-   El cast a (unsigned char) evita warnings con letras acentuadas */</span>
 
-<span class="cmt">/* Validar formato "AAA-NNN" (patrón reutilizable) */</span>
+<span class="cmt">/* Validar formato tipo "ISW-131" (3 letras, guion, 3 dígitos) */</span>
 int codigoValido(char c[]) {
     if (strlen(c) != 7) return 0;
-    for (int i = 0; i &lt; 3; i++)
-        if (!isalpha((unsigned char)c[i])) return 0;
+    for (int i = 0; i &lt; 3; i++) if (!isalpha((unsigned char)c[i])) return 0;
     if (c[3] != <span class="str">'-'</span>) return 0;
-    for (int i = 4; i &lt; 7; i++)
-        if (!isdigit((unsigned char)c[i])) return 0;
+    for (int i = 4; i &lt; 7; i++) if (!isdigit((unsigned char)c[i])) return 0;
     return 1;
 }</pre>
-
-    <div class="tip">Si te piden buscar sin distinguir mayúsculas: copia ambas
-    cadenas con <code class="inl">strcpy</code>, pásalas por
-    <code class="inl">aMinusculas</code> y aplica <code class="inl">strstr</code>
-    sobre las copias. Nunca modifiques el dato original.</div>
+      </div>
+    </div>
   </section>
 
-  <!-- ============ VECTORES ============ -->
+  <!-- ============ 2. VECTORES ============ -->
   <section class="blk" id="vectores">
-    <h2><span class="num">2</span> Vectores <span class="chip vec">arreglos 1D</span></h2>
-    <p class="lede">Índices de <code class="inl">0</code> a <code class="inl">n-1</code>.
-    Al pasar un arreglo a una función, C pasa la <b>dirección</b> del primer
-    elemento: los cambios dentro de la función persisten fuera.</p>
+    <div class="blk-head">
+      <span class="blk-num">2</span>
+      <h2>Vectores (arreglos 1D)</h2>
+      <span class="chip vec">0 hasta n-1</span>
+    </div>
+    <p class="lede">Una fila de casilleros numerados empezando en <code class="inl">0</code>.
+    Si tiene 5 casilleros, el último SIEMPRE es el <code class="inl">4</code> (nunca el 5).</p>
 
-    <div class="key"><b>Pasar arreglo ≠ pasar variable.</b> El arreglo se
-    modifica dentro de la función (referencia implícita). Pero un
-    <code class="inl">int n</code> se pasa por valor: si la función cambia la
-    cantidad de elementos, debe <b>devolver</b> el nuevo valor:
-    <code class="inl">n = registrar(datos, n);</code></div>
+    <div class="dummy-box">
+      <span class="dummy-tag">Explicado para dummys · Fotocopia vs Llave de la casa</span>
+      <h3>¿Por qué el arreglo sí cambia en main pero <code class="inl">n</code> no?</h3>
+      <div class="grid g2" style="margin-top:10px">
+        <div class="card" style="background:var(--surface-2)">
+          <span class="chip vec">int arr[] → LLAVE ORIGINAL</span>
+          <p style="margin-top:8px">C pasa la dirección real de tus casilleros. Si una función multiplica <code class="inl">arr[i] *= 2</code>, <b>los números originales quedan cambiados</b> al volver a <code class="inl">main</code>.</p>
+        </div>
+        <div class="card" style="background:var(--surface-2)">
+          <span class="chip ord">int n → FOTOCOPIA</span>
+          <p style="margin-top:8px">C pasa una copia del número <code class="inl">n</code>. Si haces <code class="inl">n++</code> adentro, el de <code class="inl">main</code> ni se entera — por eso hay que hacer <code class="inl">return n + 1;</code> y guardarlo con <code class="inl">n = registrar(..., n);</code>.</p>
+        </div>
+      </div>
 
-    <pre class="code"><span class="cmt">/* Búsqueda lineal — retorna índice o -1 (la convención) */</span>
+      <div style="margin-top:14px;padding-top:12px;border-top:1px dashed var(--line-2)">
+        <b>Prueba la trampa de <code class="inl">suma / n</code>:</b> notas = 85, 90, 78 (suma = 253, n = 3)
+        <div class="mat-controls">
+          <button class="mat-btn on" data-div="int" type="button">return suma / n; (MAL)</button>
+          <button class="mat-btn" data-div="float" type="button">return (float)suma / n; (BIEN)</button>
+        </div>
+        <p id="div-out" style="font-size:14px;font-weight:700"></p>
+      </div>
+    </div>
+
+    <div class="grid g2">
+      <div class="callout trap" style="margin:0">
+        <span class="ct">Off-by-one (i &lt;= n)</span>
+        Un arreglo de tamaño 5 llega hasta el índice 4. Escribir <code class="inl">i &lt;= 5</code> intenta abrir el casillero 5 que no existe → basura o crasheo. Siempre <code class="inl">i &lt; n</code>.
+      </div>
+      <div class="callout key" style="margin:0">
+        <span class="ct">Buscar máximo / buscar valor</span>
+        <b>Máximo:</b> arranca con <code class="inl">max = arr[0]</code> (si usas 0 y las notas fueran negativas, daría 0 mal).<br>
+        <b>Búsqueda lineal:</b> devuelve el índice si aparece, y <code class="inl">-1</code> si no existe.
+      </div>
+    </div>
+
+    <div class="deep">
+      <div class="codebox">
+        <div class="codebar"><span class="dots"><i></i><i></i><i></i></span><span>Los 3 patrones de vectores que debes escribir sin pensar</span><button class="copy" type="button">Copiar</button></div>
+<pre class="code"><span class="cmt">/* 1. Búsqueda lineal: índice si está, -1 si no existe */</span>
 int buscar(int arr[], int n, int val) {
     for (int i = 0; i &lt; n; i++)
         if (arr[i] == val) return i;
     return -1;
 }
 
-<span class="cmt">/* Máximo/mínimo: inicializar con arr[0], NO con 0
-   (si todo es negativo, max=0 queda mal) */</span>
+<span class="cmt">/* 2. Máximo: inicializar SIEMPRE con el primer elemento */</span>
 int maximo(int arr[], int n) {
     int max = arr[0];
     for (int i = 1; i &lt; n; i++)
         if (arr[i] &gt; max) max = arr[i];
     return max;
+}
+
+<span class="cmt">/* 3. Promedio real: cast a (float) ANTES de dividir */</span>
+float promedio(int arr[], int n) {
+    int suma = 0;
+    for (int i = 0; i &lt; n; i++) suma += arr[i];
+    return (float)suma / n;
 }</pre>
-
-    <div class="trap"><code class="inl">int / int</code> = división entera que
-    trunca. <code class="inl">return suma / n;</code> da entero aunque el tipo
-    sea float. Corregir: <code class="inl">return (float)suma / n;</code></div>
-
-    <div class="trap"><code class="inl">for (i = 0; i &lt;= n; i++)</code> accede a
-    <code class="inl">arr[n]</code> — fuera del arreglo (off-by-one). El límite
-    correcto es <code class="inl">i &lt; n</code>.</div>
-
-    <div class="tip">Si te piden "¿qué imprime?" con una función que modifica el
-    arreglo: los cambios <b>sí</b> se ven en <code class="inl">main</code> porque
-    el arreglo se pasó por referencia. <code class="inl">doblar(v,3)</code> sobre
-    <code class="inl">{1,2,3}</code> → imprime <b>2 4 6</b>.</div>
+      </div>
+    </div>
   </section>
 
-  <!-- ============ MATRICES ============ -->
+  <!-- ============ 3. MATRICES ============ -->
   <section class="blk" id="matrices">
-    <h2><span class="num">3</span> Matrices <span class="chip mat">arreglos 2D</span></h2>
-    <p class="lede"><code class="inl">m[FILAS][COLS]</code> — el primer índice es
-    siempre la fila. La confusión <code class="inl">[i][j]</code> vs
-    <code class="inl">[j][i]</code> es el error más cobrado.</p>
+    <div class="blk-head">
+      <span class="blk-num">3</span>
+      <h2>Matrices (arreglos 2D)</h2>
+      <span class="chip mat">m[FILAS][COLS]</span>
+    </div>
+    <p class="lede">Piensa en un edificio: el primer número es el <b>piso (fila)</b> y
+    el segundo es el <b>apartamento (columna)</b>. Toca los botones para ver qué casillas recorre cada bucle:</p>
 
-    <table class="tbl">
-      <tr><th>Recorrido</th><th>Patrón</th><th>Clave</th></tr>
-      <tr><td>Diagonal principal</td><td><code>m[i][i]</code>, i = 0..N-1</td><td>fila == columna</td></tr>
-      <tr><td>Una fila fija</td><td><code>m[fila][j]</code>, j varía</td><td>fila fija, columna corre</td></tr>
-      <tr><td>Una columna fija</td><td><code>m[i][col]</code>, i varía</td><td>columna fija, fila corre</td></tr>
-      <tr><td>Transpuesta in-place</td><td><code>for j = i+1</code></td><td>solo triángulo superior</td></tr>
-    </table>
+    <div class="dummy-box">
+      <span class="dummy-tag">Laboratorio interactivo · Toca y míralo</span>
+      <div class="mat-controls" id="mat-ctrls">
+        <button class="mat-btn on" data-m="diag" type="button">Diagonal (i == j)</button>
+        <button class="mat-btn" data-m="fila" type="button">Fila 1 fija: m[1][j]</button>
+        <button class="mat-btn" data-m="col" type="button">Columna 2 fija: m[i][2]</button>
+        <button class="mat-btn" data-m="trans-ok" type="button">Transpuesta BIEN (j = i+1)</button>
+        <button class="mat-btn" data-m="trans-bad" type="button">Transpuesta MAL (j = 0)</button>
+      </div>
+      <div class="grid g2" style="align-items:center">
+        <div>
+          <div class="mat-grid" id="mat-grid"></div>
+        </div>
+        <div>
+          <p id="mat-desc" style="font-size:14px;margin-bottom:8px"></p>
+          <pre class="code" id="mat-code" style="border-radius:10px;background:var(--code-bg)"></pre>
+        </div>
+      </div>
+    </div>
 
-    <pre class="code"><span class="cmt">/* Transponer BIEN — cada par se toca una sola vez */</span>
-for (int i = 0; i &lt; N; i++)
-    for (int j = i + 1; j &lt; N; j++) {
-        int t = m[i][j]; m[i][j] = m[j][i]; m[j][i] = t;
-    }
+    <div class="grid g2">
+      <div class="callout trap" style="margin:0">
+        <span class="ct">Transpuesta con j = 0</span>
+        Si recorres toda la matriz (<code class="inl">j=0</code>), intercambias <code class="inl">(0,1)</code> con <code class="inl">(1,0)</code> y cuando llegas a la fila 1 los vuelves a cambiar — la matriz queda idéntica. Por eso va <code class="inl">j = i + 1</code> (solo la mitad de arriba).
+      </div>
+      <div class="callout trap" style="margin:0">
+        <span class="ct">suma = 0 en el lugar equivocado</span>
+        Si todas las filas te dan el mismo resultado acumulado, pusiste <code class="inl">int suma = 0;</code> AFUERA del <code class="inl">for</code> de las filas. Debe reiniciarse al empezar cada fila.
+      </div>
+    </div>
 
-<span class="cmt">/* Sumar por filas — el acumulador se reinicia DENTRO del bucle externo */</span>
-for (int i = 0; i &lt; F; i++) {
-    int suma = 0;                       <span class="cmt">// aquí, no fuera</span>
-    for (int j = 0; j &lt; C; j++) suma += m[i][j];
-    printf(<span class="str">"Fila %d: %d\n"</span>, i, suma);
-}</pre>
-
-    <div class="trap">Transponer con <code class="inl">j = 0</code> intercambia
-    cada par <b>dos veces</b> — la segunda deshace la primera y la matriz queda
-    igual. Respuesta: <code class="inl">j = i + 1</code>.</div>
-
-    <div class="trap">Si todas las filas dan la misma suma: el
-    <code class="inl">suma = 0</code> está fuera del bucle externo y acumula
-    entre filas.</div>
-
-    <div class="key"><b>Cadena dentro de matriz:</b>
-    <code class="inl">char nombres[5][40]</code> →
-    <code class="inl">fgets(nombres[2], 40, stdin)</code> lee directo en la fila 2
-    (índice 2 = tercer nombre). Y con <code class="inl">#define FILAS 3</code>
-    los tamaños se cambian en un solo lugar.</div>
+    <div class="callout key">
+      <span class="ct">Cadenas en matriz + #define</span>
+      <code class="inl">char nombres[5][40]</code> guarda 5 nombres. Para leer el 3.º:
+      <code class="inl">fgets(nombres[2], 40, stdin);</code> (índice 2). Y declara tamaños con
+      <code class="inl">#define FILAS 3</code> para no olvidar cambiar un número en los bucles.
+    </div>
   </section>
 
-  <!-- ============ ORDENAMIENTO ============ -->
+  <!-- ============ 4. ORDENAMIENTO ============ -->
   <section class="blk" id="ordenamiento">
-    <h2><span class="num">4</span> Ordenamiento <span class="chip ord">3 algoritmos</span></h2>
-    <p class="lede">Los tres comparan de dos en dos. Cambiar el signo de la
-    comparación cambia de menor→mayor a mayor→menor.</p>
+    <div class="blk-head">
+      <span class="blk-num">4</span>
+      <h2>Ordenamiento + Arreglos paralelos</h2>
+      <span class="chip ord">3 algoritmos</span>
+    </div>
+    <p class="lede">Los tres ordenan comparando de dos en dos. Si te piden orden
+    de mayor a menor en vez de menor a mayor, solo das vuelta al signo
+    (<code class="inl">&gt;</code> por <code class="inl">&lt;</code>).</p>
 
-    <div class="grid g3">
-      <div class="card">
-        <h3>Inserción</h3>
-        <p>Como ordenar cartas en la mano: tomas la clave, corres a la derecha
-        los mayores e insertas en el hueco.</p>
-        <pre class="code">for (int i = 1; i &lt; n; i++) {
-    int clave = v[i];
-    int j = i - 1;
+    <div class="dummy-box">
+      <span class="dummy-tag">Simulador paso a paso · Para dummys</span>
+      <div class="mat-controls" id="sort-algos">
+        <button class="mat-btn on" data-algo="ins" type="button">Inserción (cartas en la mano)</button>
+        <button class="mat-btn" data-algo="bub" type="button">Burbuja (sube el mayor)</button>
+        <button class="mat-btn" data-algo="sel" type="button">Selección (busca el menor)</button>
+      </div>
+      <div class="sort-bars" id="sort-bars"></div>
+      <div class="sort-msg" id="sort-msg"></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn sm ghost" id="sort-prev" type="button">← Anterior</button>
+        <button class="btn sm" id="sort-next" type="button">Siguiente paso →</button>
+        <button class="btn sm ghost" id="sort-reset" type="button">Reiniciar</button>
+      </div>
+    </div>
+
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <tr><th>Algoritmo</th><th>Idea para recordar</th><th>Mejor caso</th><th>Peor caso</th><th>¿Estable?</th></tr>
+        <tr><td><b>Inserción</b></td><td>Tomas una carta, corres mayores a la derecha, metes en hueco</td><td><b>O(n)</b> (ya ordenado)</td><td>O(n²)</td><td>Sí</td></tr>
+        <tr><td><b>Burbuja</b></td><td>Compara vecinos y sube el mayor. Con bandera <code class="inl">huboCambio</code> corta si no movió nada</td><td><b>O(n)</b> (con bandera)</td><td>O(n²)</td><td>Sí</td></tr>
+        <tr><td><b>Selección</b></td><td>Busca el más chiquito de lo que falta y hace 1 solo cambio</td><td>O(n²) (siempre busca)</td><td>O(n²)</td><td><b>No</b></td></tr>
+      </table>
+    </div>
+
+    <div class="callout key">
+      <span class="ct">Ordenar nombres y datos paralelos ("como una mudanza")</span>
+      1) Si ordenas cadenas: compara con <code class="inl">strcmp(a, b) &gt; 0</code> y mueve con <code class="inl">strcpy</code> (no uses <code class="inl">=</code>).<br>
+      2) Si tienes arreglos paralelos (ej. <code class="inl">nombres[]</code>, <code class="inl">matriculas[]</code>, <code class="inl">notas[][]</code>), cada vez que mueves al estudiante <code class="inl">j</code> a <code class="inl">j+1</code>, <b>mueves los tres arreglos al mismo tiempo</b> para no cruzar las notas con otro alumno.
+    </div>
+
+    <div class="deep">
+      <div class="grid g3">
+        <div class="codebox" style="margin:0">
+          <div class="codebar"><span>Inserción</span><button class="copy" type="button">Copiar</button></div>
+<pre class="code">for (int i = 1; i &lt; n; i++) {
+    int clave = v[i], j = i - 1;
     while (j &gt;= 0 &amp;&amp; v[j] &gt; clave) {
         v[j + 1] = v[j];
         j--;
     }
     v[j + 1] = clave;
 }</pre>
-      </div>
-      <div class="card">
-        <h3>Burbuja</h3>
-        <p>Compara vecinos e intercambia; el mayor "sube" al final cada pasada.
-        Con bandera <code class="inl">huboCambio</code> corta si ya está ordenado.</p>
-        <pre class="code">for (int i = 0; i &lt; n - 1; i++) {
-    int huboCambio = 0;
+        </div>
+        <div class="codebox" style="margin:0">
+          <div class="codebar"><span>Burbuja (con bandera)</span><button class="copy" type="button">Copiar</button></div>
+<pre class="code">for (int i = 0; i &lt; n - 1; i++) {
+    int cambio = 0;
     for (int j = 0; j &lt; n - 1 - i; j++)
         if (v[j] &gt; v[j+1]) {
-            int t = v[j]; v[j] = v[j+1];
-            v[j+1] = t; huboCambio = 1;
+            int t=v[j]; v[j]=v[j+1];
+            v[j+1]=t; cambio=1;
         }
-    if (!huboCambio) break;
+    if (!cambio) break;
 }</pre>
-      </div>
-      <div class="card">
-        <h3>Selección</h3>
-        <p>Busca el mínimo de la parte que falta y lo pone al inicio: un solo
-        intercambio por pasada.</p>
-        <pre class="code">for (int i = 0; i &lt; n - 1; i++) {
+        </div>
+        <div class="codebox" style="margin:0">
+          <div class="codebar"><span>Selección</span><button class="copy" type="button">Copiar</button></div>
+<pre class="code">for (int i = 0; i &lt; n - 1; i++) {
     int min = i;
     for (int j = i + 1; j &lt; n; j++)
         if (v[j] &lt; v[min]) min = j;
     if (min != i) {
-        int t = v[i]; v[i] = v[min]; v[min] = t;
+        int t=v[i]; v[i]=v[min]; v[min]=t;
     }
 }</pre>
+        </div>
       </div>
     </div>
-
-    <table class="tbl">
-      <tr><th>Algoritmo</th><th>Mejor caso</th><th>Promedio</th><th>Peor caso</th><th>Estable</th><th>Nota</th></tr>
-      <tr><td>Burbuja (con bandera)</td><td>O(n)</td><td>O(n²)</td><td>O(n²)</td><td>Sí</td><td>Sin bandera, mejor caso también O(n²)</td></tr>
-      <tr><td>Inserción</td><td>O(n)</td><td>O(n²)</td><td>O(n²)</td><td>Sí</td><td>Gana si los datos ya están casi ordenados</td></tr>
-      <tr><td>Selección</td><td>O(n²)</td><td>O(n²)</td><td>O(n²)</td><td>No</td><td>Siempre compara igual; pocos intercambios</td></tr>
-    </table>
-
-    <div class="key"><b>Ordenar cadenas:</b> mismo algoritmo, cambia la
-    comparación (<code class="inl">strcmp(a,b) &gt; 0</code>) y el movimiento
-    (<code class="inl">strcpy</code> en vez de <code class="inl">=</code>).
-    <b>Datos paralelos</b> (nombre + matrícula + notas): cada movimiento se
-    repite en todos los arreglos — se mueven como una unidad.</div>
   </section>
 
-  <!-- ============ CASOS DEL PROFE ============ -->
+  <!-- ============ 5. RECETA PARA CASOS COMPLEJOS ============ -->
+  <section class="blk" id="playbook">
+    <div class="blk-head">
+      <span class="blk-num">5</span>
+      <h2>Receta para los 2–4 casos complejos del examen</h2>
+    </div>
+    <p class="lede">Cuando te pongan un código largo con preguntas de análisis o de escribir, no adivines. Sigue estos 4 pasos en el papel:</p>
+
+    <div class="grid g2">
+      <div class="card">
+        <span class="chip cad">Paso 1 · Si piden "¿qué imprime?"</span>
+        <h3 style="margin-top:8px">Haz la tablita de traza</h3>
+        <p>Anota en el margen las variables paso a paso (nunca de memoria). Ejemplo buscando 28 en <code class="inl">{15, 42, 7, 28, 56}</code>:</p>
+        <p class="mono" style="font-size:12.5px;margin-top:8px;color:var(--brand-ink)">
+        i=0 | v[0]=15 | ==28? No<br>
+        i=1 | v[1]=42 | ==28? No<br>
+        i=2 | v[2]=7  | ==28? No<br>
+        i=3 | v[3]=28 | ==28? SÍ → return 3</p>
+      </div>
+
+      <div class="card">
+        <span class="chip vec">Paso 2 · Si piden "encuentra el error"</span>
+        <h3 style="margin-top:8px">Escáner rápido de los 6 sospechosos</h3>
+        <p>El 90% de los errores en examen caen en uno de estos 6:</p>
+        <p style="margin-top:6px;font-size:13.5px">
+        1. <code class="inl">==</code> o <code class="inl">=</code> con cadenas (usar strcmp/strcpy)<br>
+        2. <code class="inl">fgets</code> con <code class="inl">'\n'</code> o saltado tras <code class="inl">scanf</code><br>
+        3. <code class="inl">i &lt;= n</code> en vez de <code class="inl">i &lt; n</code><br>
+        4. <code class="inl">int / int</code> sin <code class="inl">(float)</code><br>
+        5. Transpuesta con <code class="inl">j = 0</code> en vez de <code class="inl">j = i+1</code><br>
+        6. <code class="inl">suma = 0</code> fuera del <code class="inl">for</code> de filas</p>
+      </div>
+
+      <div class="card">
+        <span class="chip mat">Paso 3 · Si piden "explica por qué"</span>
+        <h3 style="margin-top:8px">Plantilla para justificar y ganar el 100%</h3>
+        <p>Di <b>qué pasa en memoria + cómo se arregla</b>:<br>
+        • <i>"Falla porque fgets incluye el '\n' al final; se corrige limpiándolo con strcspn."</i><br>
+        • <i>"Cambia en main porque los arreglos se pasan por referencia (dirección de memoria)."</i><br>
+        • <i>"Da igual porque j=0 intercambia cada par dos veces; debe empezar en j=i+1."</i></p>
+      </div>
+
+      <div class="card">
+        <span class="chip ord">Paso 4 · Patrón del sistema de estudiantes</span>
+        <h3 style="margin-top:8px">Sin struct ni punteros</h3>
+        <p>Si sale un caso sobre la práctica integradora:<br>
+        • Los arreglos viven en <code class="inl">main</code> y viajan como parámetros.<br>
+        • <code class="inl">registrar</code> devuelve <code class="inl">n + 1</code> (o <code class="inl">n</code> si llegó a <code class="inl">MAX</code>).<br>
+        • Al ordenar, mueves <code class="inl">nombres</code>, <code class="inl">matriculas</code> y fila de <code class="inl">notas</code> juntos.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 6. LOS 10 CASOS DEL PROFE ============ -->
   <section class="blk" id="casos">
-    <h2><span class="num">5</span> Los 10 casos del profesor <span class="chip cad">formato real</span></h2>
-    <p class="lede">Estos son los tipos exactos que pone en el examen. Haz cada
-    uno en papel antes de revelar o marcar.</p>
+    <div class="blk-head" style="justify-content:space-between">
+      <div style="display:flex;align-items:center;gap:11px;flex-wrap:wrap">
+        <span class="blk-num">6</span>
+        <h2>Los 10 casos reales del profesor</h2>
+        <span class="chip live">Interactivo</span>
+      </div>
+      <button class="btn sm ghost" id="reset-quiz" type="button">Reiniciar los 10</button>
+    </div>
+    <p class="lede">Son los del archivo del profesor. Respóndelos antes de revelar — si dominas estos 10, vas cubierto.</p>
 
     <div class="quiz"><div class="qhead"><span class="qid">C-01</span><span class="chip cad">Cadenas</span><span class="qtype">Predecir salida</span></div>
       <div class="qtxt">¿Qué imprime este programa?</div>
-      <pre class="code">char s1[20] = <span class="str">"Hola"</span>;
-char s2[20];
+      <div class="codebox"><pre class="code">char s1[20] = <span class="str">"Hola"</span>, s2[20];
 strcpy(s2, s1);
 s2[0] = toupper((unsigned char)s2[0]);
 s2[1] = tolower((unsigned char)s2[1]);
 printf(<span class="str">"%d\n"</span>, strcmp(s1, s2));
-printf(<span class="str">"%s %s\n"</span>, s1, s2);</pre>
-      <button class="reveal">Ver salida real</button>
-      <div class="sol"><pre class="code">0
-Hola Hola</pre>
-      <p><code class="inl">toupper('H')</code> sigue 'H' y
-      <code class="inl">tolower('o')</code> sigue 'o' — no cambian nada.
-      <code class="inl">strcmp</code> las encuentra idénticas → 0.</p></div>
+printf(<span class="str">"%s %s\n"</span>, s1, s2);</pre></div>
+      <button class="btn sm reveal" type="button">Ver salida real</button>
+      <div class="sol">
+        <div class="codebox"><pre class="code">0
+Hola Hola</pre></div>
+        <p><code class="inl">toupper('H')</code> sigue 'H' y <code class="inl">tolower('o')</code> sigue 'o'. Al no cambiar nada, son idénticas → <code class="inl">strcmp</code> devuelve 0.</p>
+      </div>
     </div>
 
     <div class="quiz"><div class="qhead"><span class="qid">C-02</span><span class="chip cad">Cadenas</span><span class="qtype">Selección</span></div>
-      <div class="qtxt">Un estudiante lee un nombre con <code class="inl">fgets</code>
-      y lo compara con <code class="inl">strcmp</code>. Nunca imprime "Encontrado".
-      ¿Por qué?</div>
+      <div class="qtxt">Un estudiante lee <code class="inl">nombre</code> con <code class="inl">fgets</code> y compara con <code class="inl">strcmp(nombre, "Maria") == 0</code>. Nunca imprime "Encontrado". ¿Por qué?</div>
       <div class="opts">
         <div class="opt"><span class="l">A</span>strcmp no funciona con cadenas leídas por fgets.</div>
         <div class="opt" data-ok="1"><span class="l">B</span>fgets guarda el '\n' al final; "Maria\n" ≠ "Maria".</div>
         <div class="opt"><span class="l">C</span>El arreglo nombre[] es demasiado pequeño.</div>
         <div class="opt"><span class="l">D</span>Falta incluir string.h.</div>
       </div>
-      <div class="why">fgets incluye el Enter en la cadena. Fix:
-      <code class="inl">nombre[strcspn(nombre,"\n")] = '\0';</code></div>
+      <div class="why">fgets mete el Enter como <code class="inl">'\n'</code>. Solución: <code class="inl">nombre[strcspn(nombre,"\n")] = '\0';</code></div>
     </div>
 
     <div class="quiz"><div class="qhead"><span class="qid">C-03</span><span class="chip cad">Cadenas</span><span class="qtype">Completar código</span></div>
-      <div class="qtxt">Completa los blancos para convertir la cadena a mayúsculas.</div>
-      <pre class="code">void aMayusculas(char s[]) {
+      <div class="qtxt">Completa los blancos para convertir toda la cadena a mayúsculas.</div>
+      <div class="codebox"><pre class="code">void aMayusculas(char s[]) {
     int n = (int)strlen(s);
     for (int i = 0; i &lt; ___; i++)
         s[i] = ___( ___ )s[i]);
-}</pre>
-      <button class="reveal">Verificar</button>
-      <div class="sol"><pre class="code">for (int i = 0; i &lt; n; i++)
-    s[i] = toupper((unsigned char)s[i]);</pre></div>
+}</pre></div>
+      <button class="btn sm reveal" type="button">Verificar respuesta</button>
+      <div class="sol"><div class="codebox"><pre class="code">for (int i = 0; i &lt; n; i++)
+    s[i] = toupper((unsigned char)s[i]);</pre></div></div>
     </div>
 
     <div class="quiz"><div class="qhead"><span class="qid">C-04</span><span class="chip cad">Cadenas</span><span class="qtype">Selección</span></div>
-      <div class="qtxt"><code class="inl">char frase[] = "Punta Cana 2026";</code>
-      con <code class="inl">if (strstr(frase, "Cana") != NULL)</code> — ¿qué imprime?</div>
+      <div class="qtxt"><code class="inl">char frase[] = "Punta Cana 2026";</code> con <code class="inl">if (strstr(frase, "Cana") != NULL)</code> — ¿qué imprime?</div>
       <div class="opts">
         <div class="opt" data-ok="1"><span class="l">A</span>Encontrada</div>
         <div class="opt"><span class="l">B</span>No encontrada</div>
         <div class="opt"><span class="l">C</span>Error de compilación</div>
         <div class="opt"><span class="l">D</span>Nada — el programa crashea</div>
       </div>
-      <div class="why">strstr retorna puntero distinto de NULL porque "Cana"
-      sí está dentro de la frase.</div>
+      <div class="why"><code class="inl">strstr</code> devuelve un puntero distinto de NULL cuando encuentra la subcadena adentro.</div>
     </div>
 
     <div class="quiz"><div class="qhead"><span class="qid">V-01</span><span class="chip vec">Vectores</span><span class="qtype">Traza + selección</span></div>
-      <div class="qtxt">Con <code class="inl">v[] = {15,42,7,28,56}</code> la
-      búsqueda lineal de 28 retorna <b>3</b> (lo encuentra en el índice 3).
-      ¿Qué retorna si buscas 99?</div>
+      <div class="qtxt">En <code class="inl">v[] = {15, 42, 7, 28, 56}</code>, la búsqueda lineal de 28 devuelve <b>3</b> (índice 3). Si buscas 99 (que no está), ¿qué retorna?</div>
       <div class="opts">
         <div class="opt"><span class="l">A</span>0</div>
         <div class="opt"><span class="l">B</span>5 (tamaño del arreglo)</div>
         <div class="opt" data-ok="1"><span class="l">C</span>-1</div>
         <div class="opt"><span class="l">D</span>NULL</div>
       </div>
-      <div class="why">Convención estándar: -1 = índice imposible = "no existe".</div>
+      <div class="why">-1 es la convención estándar porque ningún arreglo tiene índice negativo ("no existe").</div>
     </div>
 
     <div class="quiz"><div class="qhead"><span class="qid">V-02</span><span class="chip vec">Vectores</span><span class="qtype">Error clásico</span></div>
-      <div class="qtxt">El promedio siempre sale entero aunque haya decimales:
-      <code class="inl">return suma / n;</code> — ¿por qué y cómo se corrige?</div>
+      <div class="qtxt">En <code class="inl">float promedio(int arr[], int n)</code>, <code class="inl">return suma / n;</code> siempre devuelve entero. ¿Por qué y cómo se arregla?</div>
       <div class="opts">
-        <div class="opt"><span class="l">A</span>El tipo de retorno debería ser double, no float.</div>
+        <div class="opt"><span class="l">A</span>El retorno debería ser double, no float.</div>
         <div class="opt"><span class="l">B</span>El arreglo debería ser float.</div>
-        <div class="opt" data-ok="1"><span class="l">C</span>suma y n son int; la división entera trunca. Corregir: (float)suma / n.</div>
+        <div class="opt" data-ok="1"><span class="l">C</span>suma y n son int; la división entera trunca. Fix: (float)suma / n.</div>
         <div class="opt"><span class="l">D</span>Falta inicializar suma en 0.0f.</div>
       </div>
-      <div class="why">En C, int/int trunca antes de asignar. El cast promueve
-      la división a punto flotante.</div>
+      <div class="why">En C, entero entre entero bota los decimales antes de devolver el float.</div>
     </div>
 
     <div class="quiz"><div class="qhead"><span class="qid">V-03</span><span class="chip vec">Vectores</span><span class="qtype">Predecir salida</span></div>
-      <div class="qtxt"><code class="inl">doblar(v,3)</code> multiplica cada
-      elemento por 2. Sobre <code class="inl">v[] = {1,2,3}</code>, ¿qué imprime
-      el printf final?</div>
-      <button class="reveal">Ver salida real</button>
-      <div class="sol"><pre class="code">2 4 6</pre>
-      <p>Los arreglos se pasan por referencia implícita: la función trabaja
-      sobre el arreglo original y el cambio persiste en main.</p></div>
+      <div class="qtxt"><code class="inl">doblar(v, 3)</code> hace <code class="inl">arr[i] *= 2</code>. Sobre <code class="inl">v[] = {1, 2, 3}</code>, ¿qué imprime luego <code class="inl">main</code>?</div>
+      <button class="btn sm reveal" type="button">Ver salida real</button>
+      <div class="sol">
+        <div class="codebox"><pre class="code">2 4 6</pre></div>
+        <p>Los arreglos se pasan por referencia implícita: la función trabaja sobre el arreglo original.</p>
+      </div>
     </div>
 
     <div class="quiz"><div class="qhead"><span class="qid">M-01</span><span class="chip mat">Matrices</span><span class="qtype">Predecir salida</span></div>
-      <div class="qtxt"><code class="inl">for (i=0; i&lt;3; i++) printf("%d ", m[i][i]);</code>
-      sobre la matriz 3×3 con {1..9} en orden — ¿qué imprime?</div>
-      <button class="reveal">Ver salida real</button>
-      <div class="sol"><pre class="code">1 5 9</pre>
-      <p>La diagonal principal es donde fila == columna: m[0][0]=1, m[1][1]=5,
-      m[2][2]=9.</p></div>
+      <div class="qtxt">Matriz 3×3 con <code class="inl">{1,2,3}, {4,5,6}, {7,8,9}</code> y bucle <code class="inl">for(i=0; i&lt;3; i++) printf("%d ", m[i][i]);</code> — ¿qué imprime?</div>
+      <button class="btn sm reveal" type="button">Ver salida real</button>
+      <div class="sol">
+        <div class="codebox"><pre class="code">1 5 9</pre></div>
+        <p><code class="inl">m[i][i]</code> recorre la diagonal principal (<code class="inl">m[0][0]=1, m[1][1]=5, m[2][2]=9</code>).</p>
+      </div>
     </div>
 
     <div class="quiz"><div class="qhead"><span class="qid">M-02</span><span class="chip mat">Matrices</span><span class="qtype">Selección</span></div>
-      <div class="qtxt">Sumar la columna 2 de una matriz de 4×3. ¿Cuál bucle es
-      correcto?</div>
+      <div class="qtxt">Quieres sumar la columna 2 de una matriz de 4×3 (4 filas, 3 columnas). ¿Cuál bucle es correcto?</div>
       <div class="opts">
         <div class="opt"><span class="l">A</span>for(j=0;j&lt;3;j++) suma+=m[2][j];</div>
         <div class="opt" data-ok="1"><span class="l">B</span>for(i=0;i&lt;4;i++) suma+=m[i][2];</div>
         <div class="opt"><span class="l">C</span>for(i=0;i&lt;3;i++) suma+=m[i][2];</div>
         <div class="opt"><span class="l">D</span>for(j=0;j&lt;4;j++) suma+=m[j][j];</div>
       </div>
-      <div class="why">Columna fija = índice 2 fijo, recorres las 4 filas con i.
-      La A suma una fila; la C deja fuera una fila; la D recorre la diagonal.</div>
+      <div class="why">Columna fija = <code class="inl">[2]</code> clavado en el segundo corchete; recorres las 4 filas con <code class="inl">i</code> de 0 a 3.</div>
     </div>
 
     <div class="quiz"><div class="qhead"><span class="qid">M-03</span><span class="chip mat">Matrices</span><span class="qtype">Error clásico</span></div>
-      <div class="qtxt">La transpuesta in-place con
-      <code class="inl">for(j=0; j&lt;N; j++)</code> deja la matriz igual.
-      ¿Por qué?</div>
+      <div class="qtxt">La transpuesta in-place con <code class="inl">for(j=0; j&lt;N; j++)</code> deja la matriz igual. ¿Por qué?</div>
       <div class="opts">
-        <div class="opt"><span class="l">A</span>tmp no conserva el valor.</div>
-        <div class="opt" data-ok="1"><span class="l">B</span>Intercambia cada par dos veces: la segunda deshace la primera. Fix: j = i+1.</div>
+        <div class="opt"><span class="l">A</span>tmp pierde el valor.</div>
+        <div class="opt" data-ok="1"><span class="l">B</span>Intercambia cada par dos veces y lo deshace. Fix: j = i + 1.</div>
         <div class="opt"><span class="l">C</span>Falta reiniciar tmp = 0.</div>
         <div class="opt"><span class="l">D</span>No se puede transponer in-place.</div>
       </div>
-      <div class="why">Con j=0, el par (i,j) se intercambia y luego (j,i) lo
-      devuelve. Con j=i+1 cada par se procesa una sola vez (triángulo superior).</div>
+      <div class="why">Con <code class="inl">j=0</code>, cambias <code class="inl">(i,j)</code> y luego en <code class="inl">(j,i)</code> lo regresas. Con <code class="inl">j=i+1</code> solo tocas el triángulo superior.</div>
     </div>
   </section>
 
-  <!-- ============ TARJETAS ============ -->
+  <!-- ============ 7. TARJETAS + CHECKLIST ============ -->
   <section class="blk" id="tarjetas">
-    <h2><span class="num">6</span> Tarjetas esenciales</h2>
-    <p class="lede">Las 15 que más pesan. Clic para revelar; si no la sabes de
-    memoria, vuelve al bloque de arriba.</p>
-    <div class="grid g3">
-      <div class="fc"><span class="chip cad">Cadenas</span><div class="front">¿Qué retorna <code>strlen("Hola")</code>? ¿Cuenta el '\0'?</div><div class="back">Retorna 4. Cuenta los caracteres <b>sin</b> el terminador '\0'.</div></div>
-      <div class="fc"><span class="chip cad">Cadenas</span><div class="front">¿Por qué <code>nombre == "Pedro"</code> está mal?</div><div class="back">Compara direcciones de memoria, no contenido. Correcto: <code>strcmp(nombre,"Pedro")==0</code>.</div></div>
-      <div class="fc"><span class="chip cad">Cadenas</span><div class="front">¿Qué guarda fgets de más y cómo se quita?</div><div class="back">Guarda el '\n' del Enter. Se quita con <code>s[strcspn(s,"\n")]='\0';</code></div></div>
-      <div class="fc"><span class="chip cad">Cadenas</span><div class="front"><code>char nombre[5]="Pedro"</code> imprime basura. ¿Por qué?</div><div class="back">"Pedro" = 5 letras + '\0' = necesita 6 celdas. Regla del +1: <code>char nombre[6]</code>.</div></div>
-      <div class="fc"><span class="chip cad">Cadenas</span><div class="front">¿Qué retorna strstr si encuentra? ¿Y si no?</div><div class="back">Puntero a la primera ocurrencia / NULL. Por eso se compara con <code>!= NULL</code>.</div></div>
-      <div class="fc"><span class="chip vec">Vectores</span><div class="front">¿Cuál es el índice del último elemento de <code>int v[5]</code>?</div><div class="back"><code>v[4]</code> — siempre N-1. <code>v[5]</code> es fuera del arreglo.</div></div>
-      <div class="fc"><span class="chip vec">Vectores</span><div class="front">¿Por qué el promedio sale entero con <code>suma/n</code>?</div><div class="back">int/int = división entera. Fix: <code>(float)suma / n</code>.</div></div>
-      <div class="fc"><span class="chip vec">Vectores</span><div class="front">Si una función modifica arr[0], ¿cambia el original?</div><div class="back">Sí — arreglos se pasan por referencia implícita (dirección del primer elemento).</div></div>
-      <div class="fc"><span class="chip vec">Vectores</span><div class="front">¿Por qué crashea <code>i &lt;= n</code>?</div><div class="back">Cuando i==n accede a arr[n], fuera del arreglo. Off-by-one: usar <code>i &lt; n</code>.</div></div>
-      <div class="fc"><span class="chip vec">Vectores</span><div class="front">¿Con qué inicializar max en {3,7,1,9,4}?</div><div class="back"><code>max = arr[0]</code>. Con 0 falla si todos son negativos.</div></div>
-      <div class="fc"><span class="chip mat">Matrices</span><div class="front"><code>int m[3][4]</code> — ¿filas o columnas primero?</div><div class="back">3 filas × 4 columnas. Acceso: <code>m[fila][columna]</code>.</div></div>
-      <div class="fc"><span class="chip mat">Matrices</span><div class="front">¿Qué condición marca la diagonal principal?</div><div class="back"><code>i == j</code> — se recorre con <code>m[i][i]</code>.</div></div>
-      <div class="fc"><span class="chip mat">Matrices</span><div class="front">¿Cómo sumas la columna 2 de una matriz 5×3?</div><div class="back">Columna fija en 2, varía la fila: <code>for(i=0;i&lt;5;i++) suma+=m[i][2];</code></div></div>
-      <div class="fc"><span class="chip mat">Matrices</span><div class="front">¿Por qué la transpuesta usa <code>j = i+1</code>?</div><div class="back">Con j=0 cada par se intercambia dos veces y queda igual. j=i+1 = solo triángulo superior.</div></div>
-      <div class="fc"><span class="chip ord">Ordenamiento</span><div class="front">¿Cuál de los 3 algoritmos no es estable?</div><div class="back">Selección — siempre O(n²) incluso ya ordenado. Burbuja (con bandera) e inserción son estables y O(n) en mejor caso.</div></div>
+    <div class="blk-head">
+      <span class="blk-num">7</span>
+      <h2>15 tarjetas relámpago</h2>
     </div>
-  </section>
+    <p class="lede">Toca cada tarjeta para voltear la respuesta. Repasa hasta marcar las 15.</p>
+    <div class="grid g3">
+      <div class="fc"><span class="chip cad">Cadenas</span><div class="front">¿Qué retorna <code>strlen("Hola")</code>? ¿Cuenta el '\0'?</div><span class="tap">Tocar para revelar</span><div class="back">4 — cuenta solo letras, <b>sin</b> el '\0'.</div></div>
+      <div class="fc"><span class="chip cad">Cadenas</span><div class="front">¿Por qué <code>nombre == "Pedro"</code> está mal?</div><span class="tap">Tocar para revelar</span><div class="back">Compara direcciones de memoria. Usar <code>strcmp(nombre,"Pedro")==0</code>.</div></div>
+      <div class="fc"><span class="chip cad">Cadenas</span><div class="front">¿Qué guarda fgets extra y cómo se borra?</div><span class="tap">Tocar para revelar</span><div class="back">Guarda el <code>'\n'</code> del Enter. Se quita con <code>s[strcspn(s,"\n")]='\0';</code></div></div>
+      <div class="fc"><span class="chip cad">Cadenas</span><div class="front"><code>char n[5]="Pedro"</code> imprime basura. ¿Por qué?</div><span class="tap">Tocar para revelar</span><div class="back">"Pedro" tiene 5 letras + <code>'\0'</code> = necesita 6 celdas (regla del +1).</div></div>
+      <div class="fc"><span class="chip cad">Cadenas</span><div class="front">¿Qué devuelve strstr si encuentra / si NO encuentra?</div><span class="tap">Tocar para revelar</span><div class="back">Puntero al inicio de la coincidencia / <code>NULL</code>.</div></div>
+      <div class="fc"><span class="chip vec">Vectores</span><div class="front">Último índice válido de <code>int v[5]</code></div><span class="tap">Tocar para revelar</span><div class="back"><code>v[4]</code> (siempre N-1). <code>v[5]</code> ya está fuera.</div></div>
+      <div class="fc"><span class="chip vec">Vectores</span><div class="front">¿Por qué <code>suma / n</code> da entero en un promedio?</div><span class="tap">Tocar para revelar</span><div class="back">int/int trunca decimales. Fix: <code>(float)suma / n</code>.</div></div>
+      <div class="fc"><span class="chip vec">Vectores</span><div class="front">Si f() cambia arr[0], ¿cambia fuera de f()?</div><span class="tap">Tocar para revelar</span><div class="back">Sí — los arreglos pasan por referencia implícita.</div></div>
+      <div class="fc"><span class="chip vec">Vectores</span><div class="front">¿Por qué falla <code>for(i=0; i&lt;=n; i++)</code>?</div><span class="tap">Tocar para revelar</span><div class="back">Cuando i==n accede a <code>arr[n]</code> fuera del arreglo. Usar <code>i &lt; n</code>.</div></div>
+      <div class="fc"><span class="chip vec">Vectores</span><div class="front">¿Con qué valor inicializas <code>max</code>?</div><span class="tap">Tocar para revelar</span><div class="back"><code>max = arr[0]</code>. Nunca 0 (falla si todos son negativos).</div></div>
+      <div class="fc"><span class="chip mat">Matrices</span><div class="front">En <code>int m[3][4]</code>, ¿qué es 3 y qué es 4?</div><span class="tap">Tocar para revelar</span><div class="back">3 filas, 4 columnas. Siempre <code>m[fila][columna]</code>.</div></div>
+      <div class="fc"><span class="chip mat">Matrices</span><div class="front">Condición de la diagonal principal</div><span class="tap">Tocar para revelar</span><div class="back"><code>i == j</code> → se recorre con <code>m[i][i]</code>.</div></div>
+      <div class="fc"><span class="chip mat">Matrices</span><div class="front">¿Cómo sumas una columna fija de una 5×3?</div><span class="tap">Tocar para revelar</span><div class="back">Columna fija en el 2.º corchete: <code>for(i=0;i&lt;5;i++) suma+=m[i][col];</code></div></div>
+      <div class="fc"><span class="chip mat">Matrices</span><div class="front">¿Por qué la transpuesta usa <code>j = i + 1</code>?</div><span class="tap">Tocar para revelar</span><div class="back">Con j=0 cada par se intercambia 2 veces y queda igual.</div></div>
+      <div class="fc"><span class="chip ord">Ordenamiento</span><div class="front">¿Cuál algoritmo NO es estable y siempre es O(n²)?</div><span class="tap">Tocar para revelar</span><div class="back">Selección. Inserción y burbuja (con bandera) son estables y O(n) en mejor caso.</div></div>
+    </div>
 
-  <!-- ============ CHECKLIST ============ -->
-  <section class="blk">
-    <h2><span class="num">7</span> Checklist final</h2>
-    <ul class="check">
-      <li>Sé escribir de memoria: <b>fgets + strcspn</b>, <b>búsqueda lineal</b>, <b>recorrido de columna</b>, <b>transpuesta con j=i+1</b> y los <b>3 ordenamientos</b>.</li>
-      <li>Sé explicar por qué <b>==</b> no compara cadenas, por qué <b>fgets se "salta"</b> tras scanf, y por qué <b>suma/n</b> trunca.</li>
-      <li>Sé predecir salidas: paso por referencia de arreglos, diagonal <b>m[i][i]</b>, strcmp = 0.</li>
-      <li>Sé la tabla de complejidad: inserción y burbuja O(n) mejor caso; selección siempre O(n²) y no estable.</li>
-      <li>Sé ordenar cadenas (<b>strcmp + strcpy</b>) y mover <b>arreglos paralelos</b> como unidad.</li>
-    </ul>
-    <p style="margin-top:16px">Refuerzo detallado (tablas completas, más código
-    y explicaciones extendidas):
-    <a class="btn ghost" href="guia-isw131-examen2.pdf">Abrir el PDF de 5 páginas</a></p>
+    <div class="card" style="margin-top:22px">
+      <h3>Checklist antes de entrar al aula</h3>
+      <ul class="check">
+        <li><input type="checkbox"><span>Sé explicar por qué <b>==</b> falla en cadenas, qué deja <b>fgets</b> y para qué sirve <b>limpiarBuffer()</b>.</span></li>
+        <li><input type="checkbox"><span>Sé dibujar una traza rápida y cazar los <b>6 bugs clásicos</b> (<code>\n</code>, <code>==</code>, <code>i&lt;=n</code>, <code>int/int</code>, <code>j=0</code>, <code>suma=0</code> fuera).</span></li>
+        <li><input type="checkbox"><span>Entiendo que <b>arr[]</b> viaja por referencia pero <b>int n</b> viaja por copia.</span></li>
+        <li><input type="checkbox"><span>Distingo <b>m[i][col]</b> (columna) vs <b>m[fila][j]</b> (fila) vs <b>m[i][i]</b> (diagonal).</span></li>
+        <li><input type="checkbox"><span>Recuerdo Inserción / Burbuja / Selección, cuándo son O(n) y cómo mover arreglos paralelos.</span></li>
+      </ul>
+    </div>
   </section>
 
 </div>
 
-<div class="prog">Progreso — <span></span></div>
 <script src="../../../assets/js/educate.js"></script>
+<script>
+/* ---------- Lab 1: Cadenas en memoria ---------- */
+(function(){
+  const presets = {
+    ok: {
+      cells: [['0','P',''],['1','U',''],['2','N',''],['3','T',''],['4','A',''],['5','\\0','nul']],
+      msg: 'char c[6] = "PUNTA"; → 5 letras + 1 bandera roja (\\0). strlen(c) = 5. Todo limpio.'
+    },
+    fgets: {
+      cells: [['0','M',''],['1','a',''],['2','r',''],['3','i',''],['4','a',''],['5','\\n','bad'],['6','\\0','nul']],
+      msg: 'Leído con fgets sin strcspn: ese "\\n" del Enter hace que strcmp(nombre, "Maria") NO dé 0. Fix: s[strcspn(s,"\\n")] = "\\0";'
+    },
+    bad: {
+      cells: [['0','P',''],['1','e',''],['2','d',''],['3','r',''],['4','o',''],['5','?@!','bad'],['6','#X','bad']],
+      msg: 'char n[5] = "Pedro"; → no cupo el \\0 en las 5 casillas. printf sigue leyendo memoria ajena e imprime basura.'
+    }
+  };
+  const mem = document.getElementById('str-mem'), exp = document.getElementById('str-explain');
+  const btns = document.querySelectorAll('[data-str]');
+  function show(k){
+    btns.forEach(b=>b.classList.toggle('on', b.dataset.str===k));
+    const d = presets[k];
+    mem.innerHTML = d.cells.map(([i,v,cls])=>`<div class="mem-cell ${cls}"><span class="idx">[${i}]</span><span class="val">${v}</span></div>`).join('');
+    exp.textContent = d.msg;
+  }
+  btns.forEach(b=>b.addEventListener('click', ()=>show(b.dataset.str)));
+  show('ok');
+})();
+
+/* ---------- Lab 2: Division int vs float ---------- */
+(function(){
+  const out = document.getElementById('div-out');
+  const btns = document.querySelectorAll('[data-div]');
+  function show(k){
+    btns.forEach(b=>b.classList.toggle('on', b.dataset.div===k));
+    out.innerHTML = k === 'int'
+      ? '<span style="color:var(--bad)">Resultado: 84.00</span> — 253 / 3 son dos int, C corta el .33 ANTES de devolver el float.'
+      : '<span style="color:var(--ok)">Resultado: 84.33</span> — (float)253 / 3 convierte el numerador a decimal antes de dividir.';
+  }
+  btns.forEach(b=>b.addEventListener('click', ()=>show(b.dataset.div)));
+  show('int');
+})();
+
+/* ---------- Lab 3: Matriz interactiva ---------- */
+(function(){
+  const vals = [[1,2,3],[4,5,6],[7,8,9]];
+  const modes = {
+    diag: {
+      cls: (r,c)=> r===c ? 'hl' : '',
+      desc: 'Diagonal principal: fila == columna (i == j). Solo un bucle.',
+      code: 'for (int i = 0; i < 3; i++)\n    printf("%d ", m[i][i]); // 1 5 9'
+    },
+    fila: {
+      cls: (r,c)=> r===1 ? 'hl2' : '',
+      desc: 'Fila 1 fija: el 1.º corchete se clava en [1] y la columna j recorre 0, 1, 2.',
+      code: 'for (int j = 0; j < 3; j++)\n    suma += m[1][j]; // 4 + 5 + 6'
+    },
+    col: {
+      cls: (r,c)=> c===2 ? 'hl' : '',
+      desc: 'Columna 2 fija: el 2.º corchete se clava en [2] y la fila i recorre 0, 1, 2.',
+      code: 'for (int i = 0; i < 3; i++)\n    suma += m[i][2]; // 3 + 6 + 9'
+    },
+    'trans-ok': {
+      cls: (r,c)=> c>r ? 'hl2' : (r===c?'':'hl'),
+      desc: 'BIEN (j = i + 1): cada casilla verde de arriba cambia UNA vez con su espejo azul de abajo.',
+      code: 'for (int i = 0; i < N; i++)\n  for (int j = i + 1; j < N; j++)\n    swap(m[i][j], m[j][i]);'
+    },
+    'trans-bad': {
+      cls: (r,c)=> r!==c ? 'hl-bad' : '',
+      desc: 'ERROR (j = 0): toca TODO arriba y abajo, así que cada pareja cambia dos veces y queda idéntica.',
+      code: 'for (int i = 0; i < N; i++)\n  for (int j = 0; j < N; j++) // MAL!\n    swap(m[i][j], m[j][i]);'
+    }
+  };
+  const grid = document.getElementById('mat-grid');
+  const desc = document.getElementById('mat-desc');
+  const code = document.getElementById('mat-code');
+  const btns = document.querySelectorAll('#mat-ctrls .mat-btn');
+  function show(k){
+    btns.forEach(b=>b.classList.toggle('on', b.dataset.m===k));
+    const m = modes[k];
+    let html = '';
+    for(let r=0;r<3;r++) for(let c=0;c<3;c++){
+      html += `<div class="mat-cell ${m.cls(r,c)}"><span class="rc">[${r}][${c}]</span><span class="nv">${vals[r][c]}</span></div>`;
+    }
+    grid.innerHTML = html;
+    desc.textContent = m.desc;
+    code.textContent = m.code;
+  }
+  btns.forEach(b=>b.addEventListener('click', ()=>show(b.dataset.m)));
+  show('diag');
+})();
+
+/* ---------- Lab 4: Simulador de Ordenamiento ---------- */
+(function(){
+  const scripts = {
+    ins: [
+      {a:[5,2,9,1,6], cmp:[], done:[0], msg:'Inicio: el 5 ya cuenta como "ordenado". Vamos con i=1 (el 2).'},
+      {a:[2,5,9,1,6], cmp:[0,1], done:[0,1], msg:'El 2 es menor que 5 → corro el 5 a la derecha y meto el 2 al principio.'},
+      {a:[2,5,9,1,6], cmp:[2], done:[0,1,2], msg:'i=2 (el 9): ya es mayor que 5 → no muevo nada.'},
+      {a:[1,2,5,9,6], cmp:[0,1,2,3], done:[0,1,2,3], msg:'i=3 (el 1): corro 9, 5 y 2 a la derecha; el 1 cae al principio.'},
+      {a:[1,2,5,6,9], cmp:[3,4], done:[0,1,2,3,4], msg:'i=4 (el 6): corro el 9 y meto el 6. Listo en O(n) si ya estaba casi ordenado.'}
+    ],
+    bub: [
+      {a:[5,2,9,1,6], cmp:[0,1], done:[], msg:'Inicio: comparamos vecinos de izquierda a derecha.'},
+      {a:[2,5,1,6,9], cmp:[3,4], done:[4], msg:'Fin de pasada 1: el mayor (9) "flotó" hasta el último puesto.'},
+      {a:[2,1,5,6,9], cmp:[1,2], done:[3,4], msg:'Fin de pasada 2: el 6 ya quedó fijo en su sitio.'},
+      {a:[1,2,5,6,9], cmp:[0,1], done:[0,1,2,3,4], msg:'Pasada 3: 1 y 2 intercambian. Siguiente vuelta no hay cambios → break!'}
+    ],
+    sel: [
+      {a:[5,2,9,1,6], cmp:[0,3], done:[], msg:'Vuelta 1: busco el más pequeño de todos → es el 1 (índice 3).'},
+      {a:[1,2,9,5,6], cmp:[0,3], done:[0], msg:'Intercambio el 1 con el 5: UN solo intercambio en toda la vuelta.'},
+      {a:[1,2,9,5,6], cmp:[1], done:[0,1], msg:'Vuelta 2: el menor del resto ya es el 2 (no cambia nada).'},
+      {a:[1,2,5,9,6], cmp:[2,3], done:[0,1,2], msg:'Vuelta 3: el menor entre {9,5,6} es el 5 → lo cambio con el 9.'},
+      {a:[1,2,5,6,9], cmp:[3,4], done:[0,1,2,3,4], msg:'Vuelta 4: cambio 6 con 9. Siempre compara O(n²), aunque ya esté ordenado.'}
+    ]
+  };
+  let curAlgo = 'ins', step = 0;
+  const bars = document.getElementById('sort-bars'), msg = document.getElementById('sort-msg');
+  const abtns = document.querySelectorAll('#sort-algos .mat-btn');
+  function draw(){
+    abtns.forEach(b=>b.classList.toggle('on', b.dataset.algo===curAlgo));
+    const s = scripts[curAlgo][step];
+    bars.innerHTML = s.a.map((v,i)=>{
+      const c = s.cmp.includes(i) ? 'cmp' : (s.done.includes(i) ? 'done' : '');
+      return `<div class="s-item ${c}" style="height:${34 + v*5}px">${v}</div>`;
+    }).join('');
+    msg.textContent = `Paso ${step+1}/${scripts[curAlgo].length}: ${s.msg}`;
+  }
+  abtns.forEach(b=>b.addEventListener('click', ()=>{ curAlgo=b.dataset.algo; step=0; draw(); }));
+  document.getElementById('sort-next').addEventListener('click', ()=>{ if(step<scripts[curAlgo].length-1){step++;draw();} });
+  document.getElementById('sort-prev').addEventListener('click', ()=>{ if(step>0){step--;draw();} });
+  document.getElementById('sort-reset').addEventListener('click', ()=>{ step=0; draw(); });
+  draw();
+})();
+</script>
 </body>
 </html>

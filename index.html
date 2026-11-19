@@ -1,70 +1,126 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EDUCATE_RD — Guías de estudio</title>
+<title>EDUCATE_RD — Guías de estudio UCE</title>
 <link rel="stylesheet" href="assets/css/educate.css">
 </head>
 <body>
 
 <header class="topbar">
-  <div class="wrap">
-    <a class="logo" href="index.html">EDUCATE_RD</a>
-    <span class="crumb">/ inicio</span>
+  <div class="topbar-in">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">E</span>
+      <span>EDUCATE_RD</span>
+    </a>
+    <span class="crumb">Centro de estudio · UCE Punta Cana</span>
+    <div class="top-right">
+      <span class="prog-pill"><b>1</b> guía activa · <b>4</b> en cola</span>
+      <button class="icon-btn" id="theme-toggle" type="button" aria-label="Cambiar tema">☾</button>
+    </div>
   </div>
 </header>
 
 <div class="wrap">
   <div class="hero">
-    <span class="tag">Sistema de repaso UCE</span>
-    <h1>Guías de estudio que sí se terminan</h1>
-    <p class="sub">Cada guía destila lo que cae en el examen: patrones para
-    memorizar, trampas típicas, casos reales del profesor resueltos como quiz
-    interactivo y un PDF corto de refuerzo. Nada de documentación eterna.</p>
+    <span class="eyebrow"><span class="dot"></span> Plataforma académica abierta · Sin relleno</span>
+    <h1>Aprende lo que sí cae en el examen, en minutos.</h1>
+    <p class="sub">Guías pensadas para estudiar rápido antes de entrar al aula:
+    analogías claras ("para dummys"), laboratorios visuales en vivo, casos reales
+    del profesor resueltos y un PDF de 5 páginas para llevar en el teléfono.</p>
+    <div class="hero-actions">
+      <a class="btn" href="materias/isw-131-algoritmos/examen-2/">Entrar a ISW-131 · Examen 2</a>
+      <a class="btn ghost" href="materias/isw-131-algoritmos/examen-2/guia-isw131-examen2.pdf" target="_blank">Abrir PDF (5 págs.)</a>
+    </div>
   </div>
 
-  <section class="blk">
-    <h2>Materias</h2>
+  <!-- Métricas rápidas -->
+  <div class="grid g3" style="margin-top:6px">
+    <div class="card">
+      <span class="chip cad">Formato visual</span>
+      <h3 style="margin-top:8px">Modo Para Dummys</h3>
+      <p>Cada tema arranca con un dibujo mental y un laboratorio interactivo antes
+      de tocar código.</p>
+    </div>
+    <div class="card">
+      <span class="chip vec">Contra reloj</span>
+      <h3 style="margin-top:8px">Modo Pánico (5 min)</h3>
+      <p>Un botón oculta el detalle largo y deja solo las reglas de oro y las
+      trampas que más quitan puntos.</p>
+    </div>
+    <div class="card">
+      <span class="chip mat">Doble refuerzo</span>
+      <h3 style="margin-top:8px">Web + PDF corto</h3>
+      <p>La web interactiva entrena los casos; el PDF de 5 páginas condensa
+      todo para repasar sin internet.</p>
+    </div>
+  </div>
+
+  <!-- Catálogo de materias -->
+  <section class="blk" id="materias">
+    <div class="blk-head">
+      <span class="blk-num">★</span>
+      <h2>Guías por materia</h2>
+    </div>
+    <p class="lede">Busca por código o tema. Cada carpeta bajo <code class="inl">materias/</code>
+    es independiente y comparte el mismo motor visual.</p>
+
+    <div class="search-bar">
+      <input class="search-in" id="hub-search" type="search" placeholder="Buscar materia, código o tema (ej. ISW-131, C, Karnaugh)...">
+      <button class="mat-btn hub-filter on" data-filter="all" type="button">Todas</button>
+      <button class="mat-btn hub-filter" data-filter="live" type="button">Disponibles</button>
+      <button class="mat-btn hub-filter" data-filter="soon" type="button">Próximamente</button>
+    </div>
+
     <div class="grid g2" id="lista-guias">
 
-      <a class="card" href="materias/isw-131-algoritmos/examen-2/" style="text-decoration:none;color:inherit">
-        <span class="chip cad">ISW-131</span>
-        <h3 style="margin-top:8px">Algoritmos y Estructuras de Datos — Examen 2</h3>
-        <p>Cadenas, vectores, matrices y ordenamiento en C.
-        Los 10 casos del profesor como quiz + 15 tarjetas esenciales +
-        PDF de repaso de 5 páginas.</p>
-        <p style="margin-top:10px;font-size:12.5px;color:var(--muted)">
-        Guía interactiva + guia-isw131-examen2.pdf</p>
+      <a class="card card-link featured" data-status="live" href="materias/isw-131-algoritmos/examen-2/">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
+          <span class="chip cad">ISW-131 · Algoritmos</span>
+          <span class="chip live">Disponible ahora</span>
+        </div>
+        <h3 style="margin-top:12px">Segundo Parcial — Cadenas, Vectores, Matrices y Ordenamiento en C</h3>
+        <p>Incluye visualizador de memoria de cadenas, cuadrícula interactiva de
+        matrices, simulador paso a paso de los 3 ordenamientos, 10 casos reales
+        del profesor y PDF de 5 páginas.</p>
+        <div class="card-foot">
+          <span>4 bloques + 10 casos + 15 tarjetas</span>
+          <span>Estudiar →</span>
+        </div>
       </a>
 
-      <!-- Plantilla para la próxima guía:
-      <a class="card" href="materias/<materia>/<examen>/">
-        <span class="chip vec">COD-000</span>
-        <h3>Materia — Examen N</h3>
-        <p>Descripción corta.</p>
-      </a>
-      -->
+      <div class="card" data-status="soon" style="opacity:.82">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
+          <span class="chip mat">ING-032 · Circuitos Lógicos</span>
+          <span class="chip soon">Próximamente</span>
+        </div>
+        <h3 style="margin-top:12px">Álgebra Booleana, DeMorgan y Mapas de Karnaugh</h3>
+        <p>Simplificación paso a paso, tablas de verdad y compuertas combinacionales.</p>
+      </div>
 
-    </div>
-  </section>
+      <div class="card" data-status="soon" style="opacity:.82">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
+          <span class="chip vec">ISW-311 · Tecnologías de Internet I</span>
+          <span class="chip soon">Próximamente</span>
+        </div>
+        <h3 style="margin-top:12px">HTML5 Semántico, CSS Grid/Flex y JavaScript DOM</h3>
+        <p>Estructura, diseño responsivo y manejo de eventos sin frameworks.</p>
+      </div>
 
-  <section class="blk">
-    <h2>Cómo está armado</h2>
-    <div class="grid g3">
-      <div class="card"><h3>Guía interactiva</h3>
-      <p><code class="inl">index.html</code> por examen: plan de estudio,
-      patrones de código, trampas, casos como quiz y tarjetas.</p></div>
-      <div class="card"><h3>PDF de refuerzo</h3>
-      <p>Versión densa para repasar en papel o en el teléfono:
-      tablas completas, todo el código y respuestas rápidas.</p></div>
-      <div class="card"><h3>Estructura</h3>
-      <p><code class="inl">materias/&lt;materia&gt;/&lt;examen&gt;/</code> +
-      estilos compartidos en <code class="inl">assets/</code>.
-      Se agrega una guía copiando la carpeta.</p></div>
+      <div class="card" data-status="soon" style="opacity:.82">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
+          <span class="chip ord">INF-012 · Arquitectura / INF-021 · Telecom</span>
+          <span class="chip soon">Próximamente</span>
+        </div>
+        <h3 style="margin-top:12px">Sistemas Numéricos, Binario y Redes</h3>
+        <p>Conversiones rápidas, subredes y guías de examen acumulativas.</p>
+      </div>
+
     </div>
   </section>
 </div>
 
+<script src="assets/js/educate.js"></script>
 </body>
 </html>
