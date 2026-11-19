@@ -33,7 +33,7 @@
     const fcs = document.querySelectorAll('.fc');
     const open = document.querySelectorAll('.fc.open').length;
     if (quizzes.length || fcs.length) {
-      progEl.innerHTML = `<b>${done}/${quizzes.length}</b> casos · <b>${open}/${fcs.length}</b> tarjetas`;
+      progEl.innerHTML = `<b>${done}/${quizzes.length}</b><span class="pl"> casos</span><span class="ps"> · </span><b>${open}/${fcs.length}</b><span class="pl"> tarjetas</span>`;
     }
   }
 
@@ -149,6 +149,15 @@
       ch.classList.add('on');
       activeFilter = ch.dataset.filter;
       filterHub();
+    });
+  });
+
+  /* ---------- Checklist: tocar la fila completa marca el check ---------- */
+  document.querySelectorAll('.check li').forEach((li) => {
+    li.style.cursor = 'pointer';
+    li.addEventListener('click', (e) => {
+      const cb = li.querySelector('input[type="checkbox"]');
+      if (cb && e.target !== cb) cb.checked = !cb.checked;
     });
   });
 
