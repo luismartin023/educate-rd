@@ -19,7 +19,8 @@ EDUCATE_RD/
 ├── index.html                  ← hub: lista de materias y guías
 ├── assets/
 │   ├── css/educate.css         ← sistema visual compartido
-│   └── js/educate.js           ← quiz, tarjetas, progreso
+│   ├── js/educate.js           ← quiz, tarjetas, progreso
+│   └── media/                  ← logo-mark.png, favicon.ico, apple-touch-icon.png
 └── materias/
     └── isw-131-algoritmos/
         └── examen-2/
