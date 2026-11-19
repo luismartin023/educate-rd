@@ -116,9 +116,9 @@ html[data-theme="dark"] .topbar { background: rgba(11,16,32,.84); }
   font-size: 13px; font-weight: 800; box-shadow: 0 3px 10px rgba(79,70,229,.35);
 }
 .brand-logo {
-  width: 30px; height: 30px; border-radius: 8px;
+  width: 22px; height: 22px; border-radius: 6px;
   display: block; object-fit: contain; flex-shrink: 0;
-  filter: drop-shadow(0 3px 8px rgba(79,70,229,.28));
+  filter: drop-shadow(0 2px 5px rgba(79,70,229,.25));
 }
 .crumb {
   color: var(--muted); font-size: 13px; font-weight: 500;
