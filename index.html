@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EDUCATE_RD — Guías de estudio</title>
+<link rel="stylesheet" href="assets/css/educate.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="logo" href="index.html">EDUCATE_RD</a>
+    <span class="crumb">/ inicio</span>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="hero">
+    <span class="tag">Sistema de repaso UCE</span>
+    <h1>Guías de estudio que sí se terminan</h1>
+    <p class="sub">Cada guía destila lo que cae en el examen: patrones para
+    memorizar, trampas típicas, casos reales del profesor resueltos como quiz
+    interactivo y un PDF corto de refuerzo. Nada de documentación eterna.</p>
+  </div>
+
+  <section class="blk">
+    <h2>Materias</h2>
+    <div class="grid g2" id="lista-guias">
+
+      <a class="card" href="materias/isw-131-algoritmos/examen-2/" style="text-decoration:none;color:inherit">
+        <span class="chip cad">ISW-131</span>
+        <h3 style="margin-top:8px">Algoritmos y Estructuras de Datos — Examen 2</h3>
+        <p>Cadenas, vectores, matrices y ordenamiento en C.
+        Los 10 casos del profesor como quiz + 15 tarjetas esenciales +
+        PDF de repaso de 5 páginas.</p>
+        <p style="margin-top:10px;font-size:12.5px;color:var(--muted)">
+        Guía interactiva + guia-isw131-examen2.pdf</p>
+      </a>
+
+      <!-- Plantilla para la próxima guía:
+      <a class="card" href="materias/<materia>/<examen>/">
+        <span class="chip vec">COD-000</span>
+        <h3>Materia — Examen N</h3>
+        <p>Descripción corta.</p>
+      </a>
+      -->
+
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>Cómo está armado</h2>
+    <div class="grid g3">
+      <div class="card"><h3>Guía interactiva</h3>
+      <p><code class="inl">index.html</code> por examen: plan de estudio,
+      patrones de código, trampas, casos como quiz y tarjetas.</p></div>
+      <div class="card"><h3>PDF de refuerzo</h3>
+      <p>Versión densa para repasar en papel o en el teléfono:
+      tablas completas, todo el código y respuestas rápidas.</p></div>
+      <div class="card"><h3>Estructura</h3>
+      <p><code class="inl">materias/&lt;materia&gt;/&lt;examen&gt;/</code> +
+      estilos compartidos en <code class="inl">assets/</code>.
+      Se agrega una guía copiando la carpeta.</p></div>
+    </div>
+  </section>
+</div>
+
+</body>
+</html>

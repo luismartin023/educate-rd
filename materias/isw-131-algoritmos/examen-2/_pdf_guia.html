@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>ISW-131 Examen 2 — Guía de repaso (PDF)</title>
+<style>
+@page { size: A4; margin: 11mm 12mm; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Segoe UI", system-ui, sans-serif;
+  font-size: 8.6pt; line-height: 1.38; color: #16181f;
+}
+code, pre { font-family: "Cascadia Code", Consolas, monospace; }
+h1 { font-size: 15pt; color: #373467; }
+h2 {
+  font-size: 11pt; color: #fff; background: #373467;
+  padding: 4px 10px; border-radius: 5px; margin: 10px 0 7px;
+  page-break-after: avoid;
+}
+h3 { font-size: 9pt; color: #373467; margin: 8px 0 3px; }
+p { margin: 3px 0; }
+ul, ol { margin: 3px 0 3px 16px; }
+li { margin: 1.5px 0; }
+pre {
+  background: #14161f; color: #e8eaf2; font-size: 7.4pt;
+  padding: 6px 9px; border-radius: 5px; margin: 4px 0;
+  white-space: pre-wrap;
+}
+pre .c { color: #6b7280; font-style: italic; }
+code.inl { background: #efedfb; color: #373467; padding: 0 3px; border-radius: 3px; font-size: 8pt; }
+table { width: 100%; border-collapse: collapse; font-size: 7.8pt; margin: 5px 0; }
+th { background: #373467; color: #fff; text-align: left; padding: 3px 6px; font-size: 7.4pt; }
+td { border: 1px solid #d8dae4; padding: 3px 6px; vertical-align: top; }
+tr:nth-child(even) td { background: #f7f8fb; }
+.box { border: 1px solid #d8dae4; border-left: 3px solid #373467; padding: 5px 9px; margin: 5px 0; border-radius: 0 5px 5px 0; background: #fafbff; }
+.trap { border-left-color: #b3261e; background: #fdf3f2; }
+.trap b.t { color: #b3261e; }
+.key { border-left-color: #a34d00; background: #fdf8ef; }
+.key b.t { color: #a34d00; }
+.tip { border-left-color: #1a7f4b; background: #f2faf5; }
+.tip b.t { color: #1a7f4b; }
+.cols { column-count: 2; column-gap: 14px; }
+.nobreak { break-inside: avoid; }
+.pgbrk { break-before: page; }
+.hdr { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid #373467; padding-bottom: 4px; margin-bottom: 8px; }
+.hdr .l { font-size: 8pt; color: #666; }
+.qa { font-size: 8pt; margin: 2.5px 0; }
+.qa b { color: #373467; }
+.small { font-size: 7.6pt; color: #444; }
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <h1>ISW-131 · Segundo parcial — Guía de repaso</h1>
+  <span class="l">EDUCATE_RD · refuerzo de la guía interactiva · 5 páginas</span>
+</div>
+<p class="small">Algoritmos y Estructuras de Datos en C · UCE Punta Cana.
+Temas: cadenas (<code class="inl">string.h</code>/<code class="inl">ctype.h</code>),
+vectores, matrices y ordenamiento, con los patrones del Sistema de Gestión de
+Estudiantes. El examen trae casos complejos para analizar y escribir:
+predecir salidas, encontrar errores, completar código y justificar respuestas.</p>
+
+<!-- ==================== PÁG 1: CADENAS ==================== -->
+<h2>1 · Cadenas de caracteres</h2>
+<p>Una cadena es un arreglo de <code class="inl">char</code> terminado en
+<code class="inl">'\0'</code>. Toda función de <code class="inl">string.h</code>
+recorre hasta ese terminador; si falta, sigue leyendo memoria ajena.</p>
+
+<div class="box key"><b class="t">REGLA DEL +1 — </b>
+cadena de N caracteres → arreglo de al menos <b>N+1</b> celdas
+(<code class="inl">char nombre[51]</code> para 50 letras). Con
+<code class="inl">fgets</code> suma una más para el <code class="inl">'\n'</code>:
+<code class="inl">char nombre[52]</code>.</div>
+
+<table>
+<tr><th>Cómo se guarda "PUNTA"</th><td>índices [0]P [1]U [2]N [3]T [4]A [5]\0 — 5 letras ocupan <b>6</b> celdas</td></tr>
+<tr><th>Declaraciones</th><td><code>char c[6]="PUNTA"</code> ok · <code>char s[]="Hola"</code> (5) ok · <code>char mal[5]="PUNTA"</code> <b>ERROR</b> (no cabe '\0' → printf imprime basura)</td></tr>
+</table>
+
+<h3>Lectura: fgets + strcspn (el patrón obligatorio)</h3>
+<pre>char nombre[52];
+printf("Nombre: ");
+fgets(nombre, sizeof(nombre), stdin);       <span class="c">// lee línea completa, guarda el '\n'</span>
+nombre[strcspn(nombre, "\n")] = '\0';       <span class="c">// strcspn da la posición del '\n'</span></pre>
+<p><code class="inl">scanf("%s")</code> corta en el primer espacio ("Luis
+Santana" → "Luis"). <code class="inl">fgets</code> lee la línea entera
+<b>incluyendo el Enter</b>. <code class="inl">strcspn(s,"\n")</code> devuelve la
+posición del '\n' (o la longitud si no hay) → seguro en ambos casos.</p>
+
+<div class="box trap"><b class="t">TRAMPA — </b>un
+<code class="inl">fgets</code> que "se salta solo": un
+<code class="inl">scanf</code> anterior dejó el <code class="inl">'\n'</code> en
+el buffer y fgets lo lee como línea vacía. Fix: vaciar el buffer tras cada scanf.</div>
+<pre>void limpiarBuffer(void) {
+    int c;
+    while ((c = getchar()) != '\n' &amp;&amp; c != EOF) { }
+}
+scanf("%d", &amp;op); limpiarBuffer();   <span class="c">// ahora fgets sí espera al usuario</span></pre>
+
+<h3>string.h — la tabla completa</h3>
+<table>
+<tr><th>Función</th><th>Qué hace</th><th>Retorna / trampa</th></tr>
+<tr><td><code>strlen(s)</code></td><td>Caracteres antes del '\0'</td><td><code>strlen("Hola")</code>→4 (size_t, usar %zu)</td></tr>
+<tr><td><code>strcpy(d,s)</code></td><td>Copia s en d con '\0'</td><td>No se puede <code>d = s</code> (arreglos no se asignan)</td></tr>
+<tr><td><code>strncpy(d,s,n)</code></td><td>Copia máx n chars</td><td><b>No garantiza '\0'</b> si src más larga</td></tr>
+<tr><td><code>strcat(d,s)</code></td><td>Concatena s al final</td><td>d debe tener espacio</td></tr>
+<tr><td><code>strcmp(a,b)</code></td><td>Compara por ASCII</td><td><b>0 = iguales</b>; &lt;0 a antes; &gt;0 después. "ana"&gt;"Ana" ('a'=97&gt;'A'=65)</td></tr>
+<tr><td><code>strncmp(a,b,n)</code></td><td>Compara solo n chars</td><td>Igual que strcmp</td></tr>
+<tr><td><code>strstr(t,b)</code></td><td>Busca b dentro de t</td><td>Puntero a 1.ª ocurrencia o <b>NULL</b> → <code>!= NULL</code> en el if</td></tr>
+<tr><td><code>strchr(s,c)</code></td><td>Busca un carácter</td><td>Puntero o NULL</td></tr>
+<tr><td><code>strcspn(s,"\n")</code></td><td>Posición del 1.er char del set</td><td>Índice para poner '\0'</td></tr>
+</table>
+<p class="small"><code class="inl">strcmp</code> = igualdad/orden (login,
+ordenar nombres); <code class="inl">strstr</code> = pedazo dentro (buscar "mar"
+encuentra "María"). <b>Nunca</b> <code class="inl">==</code>: compara direcciones.</p>
+
+<h3>ctype.h — un carácter a la vez</h3>
+<table>
+<tr><td><code>isalpha(c)</code> letra</td><td><code>isdigit(c)</code> 0-9</td><td><code>isalnum(c)</code> letra o dígito</td><td><code>isspace(c)</code> espacio/tab/'\n'</td><td><code>isupper/islower</code></td><td><code>toupper/tolower</code> devuelven el char convertido; si no es letra, igual</td></tr>
+</table>
+<pre style="font-size:7pt;padding:5px 8px">void aMinusculas(char s[]) {                    <span class="c">// recorrer hasta el '\0'</span>
+    for (int i = 0; s[i] != '\0'; i++)
+        s[i] = (char)tolower((unsigned char)s[i]);  <span class="c">// cast evita warning acentos</span>
+}
+int codigoValido(char c[]) {                     <span class="c">// formato "AAA-NNN"</span>
+    if (strlen(c) != 7) return 0;                <span class="c">// longitud primero</span>
+    for (int i = 0; i &lt; 3; i++) if (!isalpha((unsigned char)c[i])) return 0;
+    if (c[3] != '-') return 0;
+    for (int i = 4; i &lt; 7; i++) if (!isdigit((unsigned char)c[i])) return 0;
+    return 1;
+}</pre>
+
+<!-- ==================== PÁG 2: VECTORES ==================== -->
+<h2 class="pgbrk">2 · Vectores (arreglos 1D)</h2>
+<p>Índices válidos: <code class="inl">0</code> a <code class="inl">n-1</code>.
+Al pasarse a una función, C envía la <b>dirección del primer elemento</b>
+(referencia implícita) → la función modifica el arreglo original.</p>
+
+<div class="box key"><b class="t">ARREGLO vs INT — </b>el arreglo sí cambia
+dentro de la función; pero un <code class="inl">int n</code> viaja por valor.
+Si la función altera la cantidad, debe <b>devolver</b> el nuevo valor:
+<code class="inl">n = registrar(nom, mat, notas, n);</code></div>
+
+<div class="cols">
+<div class="nobreak">
+<h3>Patrones que hay que saber escribir</h3>
+<pre>int buscar(int arr[], int n, int val) {   <span class="c">// lineal: índice o -1</span>
+    for (int i = 0; i &lt; n; i++)
+        if (arr[i] == val) return i;
+    return -1;                            <span class="c">// convención "no existe"</span>
+}
+int maximo(int arr[], int n) {
+    int max = arr[0];                     <span class="c">// NO 0: falla con negativos</span>
+    for (int i = 1; i &lt; n; i++)
+        if (arr[i] &gt; max) max = arr[i];
+    return max;
+}
+float promedio(int arr[], int n) {
+    int suma = 0;
+    for (int i = 0; i &lt; n; i++) suma += arr[i];
+    return (float)suma / n;               <span class="c">// cast ANTES de dividir</span>
+}
+void doblar(int arr[], int n) {           <span class="c">// modifica el original</span>
+    for (int i = 0; i &lt; n; i++) arr[i] *= 2;
+}</pre>
+</div>
+<div class="nobreak">
+<h3>Traza de búsqueda (ejercicio típico)</h3>
+<p><code class="inl">v[] = {15,42,7,28,56}</code>, buscar 28:
+i=0→15 no, i=1→42 no, i=2→7 no, i=3→28 <b>sí → return 3</b>.
+Buscar 99 → recorre todo → <b>return -1</b>.</p>
+<div class="box trap"><b class="t">TRAMPA — </b><code class="inl">i &lt;= n</code>
+accede a <code class="inl">arr[n]</code> (fuera del arreglo, off-by-one).
+Límite correcto: <code class="inl">i &lt; n</code>.</div>
+<div class="box trap"><b class="t">TRAMPA — </b><code class="inl">suma / n</code>
+con ambos int = división entera que trunca antes de asignar al float.
+Fix: <code class="inl">(float)suma / n</code>.</div>
+<div class="box trap"><b class="t">TRAMPA — </b>inicializar
+<code class="inl">max = 0</code> rompe si todos los valores son negativos.
+Siempre <code class="inl">max = arr[0]</code>.</div>
+<div class="box tip"><b class="t">PREDECIR SALIDA — </b>
+<code class="inl">doblar(v,3)</code> sobre <code class="inl">{1,2,3}</code> →
+imprime <b>2 4 6</b> porque la función trabajó sobre el original.</div>
+</div>
+</div>
+
+<h3>Funciones y arreglos — resumen de reglas</h3>
+<ul>
+<li>Firma: <code class="inl">void f(int arr[], int n)</code> — siempre recibe también el tamaño (el arreglo no lo "sabe").</li>
+<li><code class="inl">arr[]</code> como parámetro = puntero disfrazado; <code class="inl">sizeof(arr)</code> dentro de la función NO da el tamaño real.</li>
+<li>Modificar elementos dentro → visible fuera. Modificar <code class="inl">n</code> dentro → NO sale fuera (devuélvelo).</li>
+<li>Matriz de cadenas: <code class="inl">char nom[MAX][52]</code> se pasa como <code class="inl">char nom[][52]</code> (la 2.ª dimensión es obligatoria).</li>
+</ul>
+
+<!-- ==================== PÁG 3: MATRICES ==================== -->
+<h2 class="pgbrk">3 · Matrices (arreglos 2D)</h2>
+<p><code class="inl">m[FILAS][COLS]</code> — primer índice SIEMPRE la fila.
+El error más cobrado: confundir <code class="inl">[i][j]</code> con
+<code class="inl">[j][i]</code>.</p>
+
+<table>
+<tr><th>Recorrido</th><th>Código</th><th>Lógica</th></tr>
+<tr><td>Diagonal principal</td><td><code>for(i=0;i&lt;N;i++) usa m[i][i]</code></td><td>fila == columna. En {1..9}: imprime 1 5 9</td></tr>
+<tr><td>Una fila fija</td><td><code>for(j=0;j&lt;C;j++) m[f][j]</code></td><td>fila fija, corre columna</td></tr>
+<tr><td>Una columna fija</td><td><code>for(i=0;i&lt;F;i++) m[i][c]</code></td><td>columna fija, corre fila</td></tr>
+<tr><td>Toda la matriz</td><td><code>for i&lt;F / for j&lt;C → m[i][j]</code></td><td>doble bucle anidado</td></tr>
+<tr><td>Transpuesta in-place</td><td><code>for(j=i+1;j&lt;N;j++) swap m[i][j]↔m[j][i]</code></td><td>solo triángulo superior</td></tr>
+</table>
+
+<div class="cols">
+<div class="nobreak">
+<pre>for (int i = 0; i &lt; N; i++)              <span class="c">// transponer BIEN</span>
+    for (int j = i + 1; j &lt; N; j++) {
+        int t = m[i][j];
+        m[i][j] = m[j][i];
+        m[j][i] = t;
+    }</pre>
+<pre>for (int i = 0; i &lt; F; i++) {            <span class="c">// suma por filas</span>
+    int suma = 0;                          <span class="c">// reinicio DENTRO</span>
+    for (int j = 0; j &lt; C; j++)
+        suma += m[i][j];
+    printf("Fila %d: %d\n", i, suma);
+}</pre>
+<pre>#define FILAS 3                          <span class="c">// una sola fuente de verdad</span>
+#define COLS  4
+int m[FILAS][COLS];
+for (int i = 0; i &lt; FILAS; i++)
+    for (int j = 0; j &lt; COLS; j++) ...</pre>
+</div>
+<div class="nobreak">
+<div class="box trap"><b class="t">TRAMPA — </b>transponer con
+<code class="inl">j = 0</code>: cada par (i,j)↔(j,i) se intercambia DOS veces,
+la segunda deshace la primera → la matriz queda igual.
+Fix: <code class="inl">j = i + 1</code>.</div>
+<div class="box trap"><b class="t">TRAMPA — </b>todas las filas dan la misma
+suma: <code class="inl">suma = 0</code> quedó FUERA del bucle externo y acumula
+entre filas. Va dentro, antes de recorrer la fila.</div>
+<div class="box trap"><b class="t">TRAMPA — </b>bucle
+<code class="inl">for(i=0;i&lt;3;i++)</code> sobre matriz de 4 filas: falta la
+fila 3. El límite debe coincidir con el tamaño real (o usar
+<code class="inl">#define</code>).</div>
+<div class="box key"><b class="t">CADENAS EN MATRIZ — </b>
+<code class="inl">char nombres[5][40]</code>: leer el tercer nombre →
+<code class="inl">fgets(nombres[2], 40, stdin)</code> (índice 2), luego
+<code class="inl">nombres[2][strcspn(nombres[2],"\n")] = 0;</code></div>
+<div class="box tip"><b class="t">COLUMNA — </b>"sumar columna 2 de una 4×3" →
+<code class="inl">for(i=0;i&lt;4;i++) suma += m[i][2];</code> (columna fija,
+corren las 4 filas). La opción con <code class="inl">m[2][j]</code> suma una FILA.</div>
+</div>
+</div>
+
+<!-- ==================== PÁG 4: ORDENAMIENTO ==================== -->
+<h2 class="pgbrk">4 · Ordenamiento</h2>
+<p>Los tres comparan de dos en dos; invertir el signo de la comparación
+invierte el orden (menor→mayor ↔ mayor→menor).</p>
+
+<div class="cols">
+<div class="nobreak">
+<h3>Inserción — como cartas en la mano</h3>
+<pre>void insercion(int v[], int n) {
+    for (int i = 1; i &lt; n; i++) {
+        int clave = v[i];
+        int j = i - 1;
+        while (j &gt;= 0 &amp;&amp; v[j] &gt; clave) {
+            v[j + 1] = v[j];   <span class="c">// correr a la derecha</span>
+            j--;
+        }
+        v[j + 1] = clave;      <span class="c">// insertar en el hueco</span>
+    }
+}</pre>
+<p class="small">Traza sobre {5,2,9,1,6}: i=1→{2,5,9,1,6} · i=2→igual ·
+i=3→{1,2,5,9,6} · i=4→{1,2,5,6,9}.</p>
+</div>
+<div class="nobreak">
+<h3>Burbuja — el mayor sube al final</h3>
+<pre>void burbuja(int v[], int n) {
+    for (int i = 0; i &lt; n - 1; i++) {
+        int huboCambio = 0;
+        for (int j = 0; j &lt; n - 1 - i; j++)
+            if (v[j] &gt; v[j + 1]) {
+                int t = v[j]; v[j] = v[j+1];
+                v[j + 1] = t; huboCambio = 1;
+            }
+        if (!huboCambio) break;  <span class="c">// ya ordenado</span>
+    }
+}</pre>
+<p class="small">Pasadas sobre {5,2,9,1,6}: p1→{2,5,1,6,9} · p2→{2,1,5,6,9} ·
+p3→{1,2,5,6,9} · p4→sin cambios, se detiene.</p>
+</div>
+<div class="nobreak">
+<h3>Selección — mínimo al inicio</h3>
+<pre>void seleccion(int v[], int n) {
+    for (int i = 0; i &lt; n - 1; i++) {
+        int min = i;
+        for (int j = i + 1; j &lt; n; j++)
+            if (v[j] &lt; v[min]) min = j;
+        if (min != i) {
+            int t = v[i]; v[i] = v[min]; v[min] = t;
+        }
+    }
+}</pre>
+</div>
+</div>
+
+<table>
+<tr><th>Algoritmo</th><th>Mejor caso</th><th>Promedio</th><th>Peor caso</th><th>Estable</th><th>Detalle</th></tr>
+<tr><td>Burbuja (con bandera)</td><td>O(n)</td><td>O(n²)</td><td>O(n²)</td><td>Sí</td><td>Sin bandera, mejor caso también O(n²)</td></tr>
+<tr><td>Inserción</td><td>O(n)</td><td>O(n²)</td><td>O(n²)</td><td>Sí</td><td>La mejor si los datos ya están casi ordenados</td></tr>
+<tr><td>Selección</td><td>O(n²)</td><td>O(n²)</td><td>O(n²)</td><td><b>No</b></td><td>Compara siempre igual; hace pocos intercambios</td></tr>
+</table>
+<p class="small">Mejor caso = vector ya ordenado (inserción: 1 comparación por
+elemento). Peor caso = ordenado al revés. Inserción suele ganar a burbuja en la
+práctica: un desplazamiento = 1 asignación, un intercambio = 3.</p>
+
+<h3>Ordenar cadenas y arreglos paralelos</h3>
+<pre>void ordenarNombres(char nom[][52], int n) {   <span class="c">// strcmp compara, strcpy mueve</span>
+    for (int i = 1; i &lt; n; i++) {
+        char clave[52]; strcpy(clave, nom[i]);
+        int j = i - 1;
+        while (j &gt;= 0 &amp;&amp; strcmp(nom[j], clave) &gt; 0) {
+            strcpy(nom[j + 1], nom[j]); j--;
+        }
+        strcpy(nom[j + 1], clave);
+    }
+}</pre>
+<div class="box key"><b class="t">ARREGLOS PARALELOS — </b>nombre, precio y
+stock se mueven JUNTOS: al correr/insertar se repite el movimiento en cada
+arreglo (o se guarda toda la fila en variables clave y se reinserta completa).
+Es el patrón del sistema de estudiantes (nom + matrícula + notas).</div>
+
+<!-- ==================== PÁG 5: PATRONES + RESPUESTAS ==================== -->
+<h2 class="pgbrk">5 · Patrones del proyecto + respuestas rápidas</h2>
+
+<div class="cols">
+<div class="nobreak">
+<h3>Esqueleto del sistema de gestión</h3>
+<p class="small">Prohibidos: struct, punteros, malloc, variables globales.
+Los datos viven en main y viajan como parámetros.</p>
+<pre>#define MAX 10
+#define LNOM 52
+#define LMAT 14
+#define NOTAS 3
+
+int main(void) {
+    char nombres[MAX][LNOM];
+    char matriculas[MAX][LMAT];
+    float notas[MAX][NOTAS];
+    int n = 0, op;
+    do {
+        op = mostrarMenu();
+        switch (op) {
+        case 1: n = registrar(nombres, matriculas,
+                              notas, n); break;
+        case 2: mostrarTodos(nombres, matriculas,
+                             notas, n); break;
+        case 0: printf("Hasta luego.\n"); break;
+        default: printf("Opcion invalida.\n");
+        }
+    } while (op != 0);
+    return 0;
+}</pre>
+<pre>int mostrarMenu(void) {                  <span class="c">// leer número + limpiar</span>
+    int op;
+    printf("Opcion: ");
+    if (scanf("%d", &amp;op) != 1) op = -1;  <span class="c">// letras → inválida</span>
+    limpiarBuffer();
+    return op;
+}
+float leerNota(int num) {                <span class="c">// validar rango con do-while</span>
+    float x;
+    do {
+        printf("Nota %d (0-100): ", num);
+        if (scanf("%f", &amp;x) != 1) x = -1;
+        limpiarBuffer();
+    } while (x &lt; 0 || x &gt; 100);
+    return x;
+}</pre>
+<p class="small">Tabla alineada: <code class="inl">%-20s</code> = 20 espacios a la
+izquierda, <code class="inl">%6.1f</code> = 6 espacios con 1 decimal.
+registrar: si <code class="inl">n &gt;= MAX</code> → error y devuelve n; si
+registra → devuelve <code class="inl">n + 1</code>.</p>
+</div>
+
+<div class="nobreak">
+<h3>Respuestas rápidas (las 15 tarjetas)</h3>
+<div class="qa"><b>strlen("Hola")?</b> → 4, sin contar '\0'.</div>
+<div class="qa"><b>== en cadenas?</b> → compara direcciones; usar strcmp()==0.</div>
+<div class="qa"><b>fgets extra?</b> → guarda '\n'; quitar con strcspn.</div>
+<div class="qa"><b>char n[5]="Pedro"?</b> → falta celda para '\0' (regla +1).</div>
+<div class="qa"><b>strstr no encuentra?</b> → retorna NULL.</div>
+<div class="qa"><b>Índice último de v[5]?</b> → v[4]; v[5] es fuera.</div>
+<div class="qa"><b>Promedio sale int?</b> → int/int trunca; cast (float).</div>
+<div class="qa"><b>Función modifica arr?</b> → sí: referencia implícita.</div>
+<div class="qa"><b>i &lt;= n?</b> → off-by-one, accede arr[n]; usar i &lt; n.</div>
+<div class="qa"><b>Inicializar max?</b> → arr[0], nunca 0.</div>
+<div class="qa"><b>m[3][4]?</b> → 3 filas × 4 columnas.</div>
+<div class="qa"><b>Diagonal?</b> → i == j, usar m[i][i].</div>
+<div class="qa"><b>Columna fija?</b> → m[i][col], corre la fila.</div>
+<div class="qa"><b>Transpuesta?</b> → j = i+1 (si no, se deshace).</div>
+<div class="qa"><b>¿Inestable?</b> → selección; burbuja e inserción son estables.</div>
+
+<div class="box tip" style="margin-top:8px"><b class="t">EN EL EXAMEN — </b>
+predecir salida: ejecuta mentalmente línea por línea con los valores dados.
+Encontrar error: busca primero los 5 clásicos ('\n' de fgets, == en cadenas,
+i&lt;=n, int/int, j=0 en transpuesta). Completar código: identifica el patrón
+del bloque (recorrido, búsqueda, ordenamiento) y rellena siguiéndolo.
+Justificar: di la regla, no solo la respuesta ("retorna -1 porque es la
+convención de índice imposible").</div>
+</div>
+</div>
+
+</body>
+</html>
